@@ -5,11 +5,19 @@ import { FaEye, FaEyeSlash, FaExclamationCircle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { palette } from "./Styles/colors";
+import H4 from "./CustomTags/H4";
+import { toast } from "react-toastify";
+import Spinner from "./Components/Spinner";
+import PasswordInput from "./CustomTags/PasswordField";
 const Button = styled.button`
   margin: 5px;
   text-align: center;
   border-radius: 3px;
   background-color: ${palette.mainBlue};
+`;
+
+const LoginLink = styled(Link)`
+  text-decoration: underline;
 `;
 const Login = () => {
   const navigate = useNavigate();
@@ -24,13 +32,30 @@ const Login = () => {
   };
 
   const handleLogin = () => {
+    const mockPromise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve("Data Fetched Successfully");
+      }, 1500);
+    });
+    toast.promise(
+      mockPromise,
+      {
+        pending: "Sending to database",
+        success: "successfullly logged in",
+        error: "error",
+      },
+      {
+        position: "top-center",
+        autoClose: "3000",
+      }
+    );
+
     setLoading(true);
     setTimeout(() => {
       if (username !== "admin" || password !== "password") {
         setError("Invalid username or password");
         setLoading(false);
       } else {
-        alert("Login successful!");
         setError(null);
         setLoading(false);
       }
@@ -40,7 +65,6 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-header">
-        <img src="/logo.png" alt="App Logo" className="login-logo" />
         <h2>
           Login to <span className="app-name">CraftEd</span>
         </h2>
@@ -60,7 +84,7 @@ const Login = () => {
 
         <div className="input-group">
           <label>Password</label>
-          <div className="password-wrapper">
+          {/* <div className="password-wrapper">
             <input
               type={isPasswordVisible ? "text" : "password"}
               placeholder="********"
@@ -71,7 +95,8 @@ const Login = () => {
             <button onClick={togglePasswordVisibility} className="icon-btn">
               {isPasswordVisible ? <FaEye /> : <FaEyeSlash />}
             </button>
-          </div>
+          </div> */}
+          <PasswordInput />
         </div>
 
         <button
@@ -79,7 +104,7 @@ const Login = () => {
           onClick={handleLogin}
           disabled={loading}
         >
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "logging in" : "Login"}
         </button>
 
         {error && (
@@ -88,9 +113,10 @@ const Login = () => {
           </div>
         )}
         <br />
-        <Link to={"/signup"}>
-          <button className={`login-btn`}>Create an account</button>
-        </Link>
+        <H4>
+          Don't have an account click here{" "}
+          <LoginLink to={"/signup"}>Sign up</LoginLink>
+        </H4>
       </div>
     </div>
   );
