@@ -87,8 +87,13 @@ const Login = () => {
           <label>Password</label>
           <div className="password-wrapper">
             <input
+<<<<<<< HEAD
               autoComplete="off"
               type={isPasswordVisible ? "text" : "password"}
+=======
+              // type={isPasswordVisible ? "text" : "password"}
+              type="password"
+>>>>>>> f60a740 (first commit)
               placeholder="********"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
