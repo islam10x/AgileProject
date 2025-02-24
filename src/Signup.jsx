@@ -40,7 +40,7 @@ const Signup = () => {
     <div className="login-container">
       <div className="login-header">
         <h2>
-          Login to <span className="app-name">My App</span>
+          Sign up to <span className="app-name">My App</span>
         </h2>
       </div>
 
@@ -100,7 +100,7 @@ const Signup = () => {
           onClick={handleSignup}
           disabled={loading}
         >
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "Signing up..." : "Sign up"}
         </button>
 
         {error && (

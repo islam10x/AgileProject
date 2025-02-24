@@ -74,6 +74,7 @@ const Login = () => {
         <div className="input-group">
           <label>Username</label>
           <input
+            autoComplete="off"
             type="text"
             placeholder="Enter your username"
             value={username}
@@ -84,19 +85,19 @@ const Login = () => {
 
         <div className="input-group">
           <label>Password</label>
-          {/* <div className="password-wrapper">
+          <div className="password-wrapper">
             <input
+              autoComplete="off"
               type={isPasswordVisible ? "text" : "password"}
               placeholder="********"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={`input-field ${error ? "error-border" : ""}`}
             />
-            <button onClick={togglePasswordVisibility} className="icon-btn">
+            <div onClick={togglePasswordVisibility} className="icon-btn">
               {isPasswordVisible ? <FaEye /> : <FaEyeSlash />}
-            </button>
-          </div> */}
-          <PasswordInput />
+            </div>
+          </div>
         </div>
 
         <button
