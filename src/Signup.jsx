@@ -110,7 +110,7 @@ const Signup = () => {
         )}
         <br />
         <H4>
-          Don't have an account click here{" "}
+          Already have an account click here{" "}
           <LoginLink to={"/login"}>Login</LoginLink>
         </H4>
       </div>

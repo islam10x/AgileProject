@@ -32,35 +32,52 @@ const Login = () => {
   };
 
   const handleLogin = () => {
+    // Start loading
+    setLoading(true);
+    
+    // Create mock API promise for toast
     const mockPromise = new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve("Data Fetched Successfully");
+        // Check credentials
+        if (username !== "admin" || password !== "password") {
+          reject("Invalid username or password");
+        } else {
+          resolve("Data Fetched Successfully");
+        }
       }, 1500);
     });
+    
+    // Display toast notifications
     toast.promise(
       mockPromise,
       {
         pending: "Sending to database",
-        success: "successfullly logged in",
-        error: "error",
+        success: "Successfully logged in",
+        error: "Invalid username or password",
       },
       {
         position: "top-center",
-        autoClose: "3000",
+        autoClose: 3000,
       }
-    );
-
-    setLoading(true);
-    setTimeout(() => {
-      if (username !== "admin" || password !== "password") {
-        setError("Invalid username or password");
-        setLoading(false);
-      } else {
-        setError(null);
-        setLoading(false);
-      }
-    }, 1500);
+    )
+    .then(() => {
+      // Successful login - store auth state if needed
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('user', 'admin');
+      
+      // Navigate to dashboard
+      navigate('/dashboard');
+    })
+    .catch((error) => {
+      // Handle login failure
+      setError("Invalid username or password");
+    })
+    .finally(() => {
+      // Reset loading state
+      setLoading(false);
+    });
   };
+  
 
   return (
     <div className="login-container">
@@ -87,13 +104,10 @@ const Login = () => {
           <label>Password</label>
           <div className="password-wrapper">
             <input
-<<<<<<< HEAD
               autoComplete="off"
               type={isPasswordVisible ? "text" : "password"}
-=======
               // type={isPasswordVisible ? "text" : "password"}
-              type="password"
->>>>>>> f60a740 (first commit)
+              // type="password"
               placeholder="********"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -127,5 +141,6 @@ const Login = () => {
     </div>
   );
 };
+
 
 export default Login;
