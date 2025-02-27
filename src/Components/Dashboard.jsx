@@ -7,6 +7,7 @@ import Recruitment from './recruitment';
 import LeaveManagement from './leavemanagement';
 import Settings from './settings';
 import './Dashboard.css';
+import Payroll from './payroll';
 
 const HRMDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -28,6 +29,8 @@ const HRMDashboard = () => {
         return <Recruitment />;
       case 'leave':
         return <LeaveManagement />;
+      case 'payroll':
+        return <Payroll />;
       case 'settings':
         return <Settings />;
       default:

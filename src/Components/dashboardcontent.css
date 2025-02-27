@@ -97,6 +97,7 @@
     font-size: 1.125rem; /* text-lg */
     font-weight: 600; /* font-semibold */
     margin-bottom: 1rem; /* mb-4 */
+    color: #000;
   }
   
   .card-content {
@@ -114,7 +115,8 @@
   }
   
   .activity-title {
-    font-weight: 500; /* font-medium */
+    font-weight: 500; 
+    color: #000;/* font-medium */
   }
   
   .activity-description {
@@ -139,7 +141,8 @@
   }
   
   .announcement-title {
-    font-weight: 500; /* font-medium */
+    font-weight: 500;
+    color: #000; /* font-medium */
   }
   
   .announcement-date {
@@ -154,4 +157,5 @@
     color: #4b5563; /* text-gray-600 */
     font-size: 0.875rem; /* text-sm */
     margin-top: 0.25rem; /* mt-1 */
+    color: #000;
   }

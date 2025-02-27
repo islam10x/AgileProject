@@ -10,6 +10,7 @@ import {
   X
 } from 'lucide-react';
 import './sidebar.css';
+import Payroll from './payroll';
 
 const Sidebar = ({ sidebarOpen, toggleSidebar, activeMenu, setActiveMenu }) => {
   return (
@@ -52,6 +53,13 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, activeMenu, setActiveMenu }) => {
             active={activeMenu === 'leave'} 
             collapsed={!sidebarOpen} 
             onClick={() => setActiveMenu('leave')}
+          />
+          <MenuItem 
+            icon={<FileText/>} 
+            text="Payroll" 
+            active={activeMenu === 'payroll'} 
+            collapsed={!sidebarOpen} 
+            onClick={() => setActiveMenu('payroll')}
           />
           <MenuItem 
             icon={<Settings />} 
