@@ -9,6 +9,8 @@ import H4 from "./CustomTags/H4";
 import { toast } from "react-toastify";
 import Spinner from "./Components/Spinner";
 import PasswordInput from "./CustomTags/PasswordField";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { fetchCurrentUser, login } from "./services/authProvider";
 const Button = styled.button`
   margin: 5px;
   text-align: center;
@@ -20,48 +22,30 @@ const LoginLink = styled(Link)`
   text-decoration: underline;
 `;
 const Login = () => {
-  const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { mutate, isPending: loading } = useMutation({
+    mutationFn: login,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      navigate("/dashboard");
+    },
+
+    onError: (err) => {
+      toast(`❌ error ${err}`);
+    },
+  });
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
-
-  const handleLogin = () => {
-    const mockPromise = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve("Data Fetched Successfully");
-      }, 1500);
-    });
-    toast.promise(
-      mockPromise,
-      {
-        pending: "Sending to database",
-        success: "successfullly logged in",
-        error: "error",
-      },
-      {
-        position: "top-center",
-        autoClose: "3000",
-      }
-    );
-
-    setLoading(true);
-    setTimeout(() => {
-      if (username !== "admin" || password !== "password") {
-        setError("Invalid username or password");
-        setLoading(false);
-      } else {
-        setError(null);
-        setLoading(false);
-      }
-    }, 1500);
-  };
-
+  function handleLogin() {
+    mutate({ email, password });
+  }
   return (
     <div className="login-container">
       <div className="login-header">
@@ -72,13 +56,13 @@ const Login = () => {
 
       <div className="login-form">
         <div className="input-group">
-          <label>Username</label>
+          <label>email</label>
           <input
             autoComplete="off"
             type="text"
-            placeholder="Enter your username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className={`input-field ${error ? "error-border" : ""}`}
           />
         </div>
@@ -87,13 +71,10 @@ const Login = () => {
           <label>Password</label>
           <div className="password-wrapper">
             <input
-<<<<<<< HEAD
               autoComplete="off"
               type={isPasswordVisible ? "text" : "password"}
-=======
               // type={isPasswordVisible ? "text" : "password"}
-              type="password"
->>>>>>> f60a740 (first commit)
+              // type="password"
               placeholder="********"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

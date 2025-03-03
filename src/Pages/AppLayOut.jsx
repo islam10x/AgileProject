@@ -1,20 +1,17 @@
 import { Outlet } from "react-router-dom";
-import Header from "../Components/Header";
 import styled from "styled-components";
-// import Header from "../Components/Header";
-const LayOut = styled.div`
-  display: flex;
-  flex-direction: column;
+import { useQuery } from "@tanstack/react-query";
+import supabase from "../services/supabase";
+const Div = styled.div`
   height: 100vh;
   width: 100%;
-  border: 1px solid red;
 `;
+// const CustomOutlet = styled(Outlet)``;
 function AppLayOut() {
   return (
-    <LayOut>
-      <Header />
+    <Div>
       <Outlet />
-    </LayOut>
+    </Div>
   );
 }
 

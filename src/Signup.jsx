@@ -1,39 +1,50 @@
 import React, { useState } from "react";
 import "./Login.css"; // Import CSS for styling
 import { FaEye, FaEyeSlash, FaExclamationCircle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import H4 from "./CustomTags/H4";
 import styled from "styled-components";
 import { validateEmail } from "./Helper/helpers";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { fetchCurrentUser, signup } from "./services/authProvider";
+import { toast } from "react-toastify";
 const LoginLink = styled(Link)`
   text-decoration: underline;
 `;
 const Signup = () => {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+  const [last_name, setlast_name] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
   const [email, setEmail] = useState("");
-
+  const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-
+  const queryClient = useQueryClient();
+  const { mutate, isPending: loading } = useMutation({
+    mutationFn: signup,
+    mutationKey: ["user"],
+    onSuccess: async () => {
+      toast("check your email inbox to verify your account");
+    },
+  });
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
   const handleSignup = () => {
     setError("");
-    if (email === "" || !username || !password || !confirmpassword) {
+    if (!email || !name || !last_name || !password || !confirmpassword) {
       setError("please fill all the fields");
+      return;
     } else if (validateEmail(email) === false) {
       setError("invalid email");
+      return;
     } else if (password !== confirmpassword) {
       setError("Passwords do not match");
-      setLoading(false);
-    } else {
-      setError(null);
+      return;
     }
+    mutate({ email, password, name, last_name });
   };
 
   return (
@@ -48,9 +59,16 @@ const Signup = () => {
         <div className="input-group">
           <input
             type="text"
-            placeholder="Enter your username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter your first name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className={`input-field ${error ? "error-border" : ""}`}
+          />
+          <input
+            type="text"
+            placeholder="Enter your last name"
+            value={last_name}
+            onChange={(e) => setlast_name(e.target.value)}
             className={`input-field ${error ? "error-border" : ""}`}
           />
           <input
