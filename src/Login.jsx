@@ -30,13 +30,14 @@ const Login = () => {
   const navigate = useNavigate();
   const { mutate, isPending: loading } = useMutation({
     mutationFn: login,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+    onSuccess: async () => {
+      toast.success("Log in successfull");
+      await queryClient.invalidateQueries({ queryKey: ["user"] });
       navigate("/dashboard");
     },
 
     onError: (err) => {
-      toast(`❌ error ${err}`);
+      toast(`❌ ${err}`);
     },
   });
 

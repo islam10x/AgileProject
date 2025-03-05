@@ -1,3 +1,5 @@
+// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import supabase from "./supabase";
 
 export async function signup({ email, password, name, last_name }) {
@@ -5,8 +7,14 @@ export async function signup({ email, password, name, last_name }) {
     email,
     password,
   });
-  console.log(newUser.user);
-  if (error) throw new Error(error.message);
+
+  if (error) {
+    if (error.message === "user already registered") {
+      toast.error("user already registered");
+    } else {
+      toast.error(error.message);
+    }
+  }
 
   const { data: user, error: userError } = await supabase
     .from("Users")
@@ -40,15 +48,20 @@ export async function fetchCurrentUser() {
     error,
   } = await supabase.auth.getUser();
   if (error) throw new Error(error.message);
+  console.log(user);
   const { data: profile } = await supabase
     .from("Users")
     .select()
     .eq("id", user.id)
     .single();
+  console.log(profile);
+  if (user === null) return null;
   return profile;
 }
 
 export async function logout() {
   const { error } = await supabase.auth.signOut();
-  if (error) throw new Error(error.message);
+  if (error) {
+    throw new Error(error.message);
+  }
 }

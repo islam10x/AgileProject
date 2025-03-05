@@ -12,12 +12,12 @@ const LoginLink = styled(Link)`
   text-decoration: underline;
 `;
 const Signup = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [last_name, setlast_name] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
   const [email, setEmail] = useState("");
-  const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [error, setError] = useState(null);
   const queryClient = useQueryClient();
@@ -25,7 +25,8 @@ const Signup = () => {
     mutationFn: signup,
     mutationKey: ["user"],
     onSuccess: async () => {
-      toast("check your email inbox to verify your account");
+      toast("✅ user created successfully");
+      navigate("/login");
     },
   });
   const togglePasswordVisibility = () => {
