@@ -65,3 +65,17 @@ export async function logout() {
     throw new Error(error.message);
   }
 }
+
+export async function getUserCountByRole(role) {
+  const { count, error } = await supabase
+    .from("Users")
+    .select("*", { count: "exact", head: true })
+    .eq("role", role);
+    
+  if (error) {
+    toast.error(`Error retrieving user count: ${error.message}`);
+    throw new Error(error.message);
+  }
+  
+  return count;
+}

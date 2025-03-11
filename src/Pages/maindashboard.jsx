@@ -1,13 +1,28 @@
 import React from 'react'
+import { useState, useEffect } from 'react';
 import './dashboardcontent.css';
+import {getUserCountByRole} from '../services/authProvider';
 function Maindashboard() {
+  const [numusers, setNumUsers] = useState(null);
+
+  useEffect(() => {
+    const fetchUserCount = async () => {  
+      try {
+        const count = await getUserCountByRole("candidate");
+        setNumUsers(count);
+      } catch (error) {  
+        console.error("Error fetching user count:", error);
+      }
+    };
+    fetchUserCount();
+  }, []);
   return (
     <main className="dashboard-main">
       <h2 className="dashboard-title">Dashboard</h2>
       
       {/* Stats Cards */}
       <div className="stats-grid">
-        <StatCard title="Total Employees" value="248" percentage="+2.5%" increase={true} />
+        <StatCard title="Total Employees" value={numusers} percentage="+2.5%" increase={true} />
         <StatCard title="Open Positions" value="12" percentage="-1.8%" increase={false} />
         <StatCard title="Interviews Scheduled" value="24" percentage="+5.3%" increase={true} />
         <StatCard title="Leave Requests" value="8" percentage="+1.2%" increase={true} />
