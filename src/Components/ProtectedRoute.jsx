@@ -9,6 +9,7 @@ export default function ProtectedRoute() {
     queryFn: fetchCurrentUser,
     refetchOnWindowFocus: false,
     staleTime: 5 * 60 * 1000,
+    retry: false,
   });
 
   if (isLoading) return <Spinner />;
