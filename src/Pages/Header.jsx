@@ -52,15 +52,15 @@ const Header = ({ sidebarOpen, dropdownOpen, setDropdownOpen }) => {
 
           {dropdownOpen && (
             <div className="dropdown-menu">
-              <button className="dropdown-item">Profile</button>
-              <button className="dropdown-item">Account Settings</button>
-              <button
+              <a className="dropdown-item">Profile</a>
+              <a className="dropdown-item">Account Settings</a>
+              <a
                 disabled={isLoggingOut}
                 onClick={mutate}
                 className="dropdown-item dropdown-item-danger"
               >
                 Logout
-              </button>
+              </a>
             </div>
           )}
         </div>
