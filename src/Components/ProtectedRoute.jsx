@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Spinner from "./Spinner";
 import { fetchCurrentUser } from "../services/authProvider";
 
-export default function ProtectedRoute() {
-  const { data: user, isLoading } = useQuery({
+export default function ProtectedRoute({ children }) {
+  const { data: user, isPending } = useQuery({
     queryKey: ["user"],
     queryFn: fetchCurrentUser,
     refetchOnWindowFocus: false,
@@ -12,8 +12,8 @@ export default function ProtectedRoute() {
     retry: false,
   });
 
-  if (isLoading) return <Spinner />;
+  if (isPending) return <Spinner />;
   if (!user) return <Navigate to="/login" replace />;
 
-  return <Outlet />; // Let children render (AppLayOut wraps at a higher level)
+  return <div> {children}</div>; // Let children render (AppLayOut wraps at a higher level)
 }
