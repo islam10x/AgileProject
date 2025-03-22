@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { palette } from "../Styles/colors";
+import { useNavigate } from "react-router";
 
 const CustomDiv = styled.div`
   background-color: ${palette.mainBlue};
@@ -34,9 +35,13 @@ function Offer({ offer }) {
   // eslint-disable-next-line no-unused-vars
   const { title, description, company_name, location, salary, currency, type } =
     { ...offer };
-
+  const navigate = useNavigate();
   return (
-    <CustomDiv>
+    <CustomDiv
+      onClick={() => {
+        navigate("/login");
+      }}
+    >
       <OfferTitle>
         <h2>{title}</h2>
       </OfferTitle>

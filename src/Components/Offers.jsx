@@ -20,6 +20,7 @@ function Offers() {
     staleTime: 5 * 60 * 1000,
     retry: false,
   });
+  // const offersArray = [...offers, ...offers, ...offers];
   return (
     <OffersDiv>
       {isPending ? (

@@ -14,19 +14,20 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
+            path="/"
             element={
               <ProtectedRoute>
                 <AppLayOut />
               </ProtectedRoute>
             }
           >
-            <Route index element={<Navigate replace to="dashboard" />} />
+            <Route index element={<Navigate replace to="home" />} />
             <Route path="dashboard" element={<Dashboard />} />
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="*" element={<PageNotFound />} />
-          <Route path="home" element={<HomePage />} />
+          <Route path="home" index element={<HomePage />} />
         </Routes>
       </BrowserRouter>
     </div>
