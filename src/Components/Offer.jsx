@@ -1,10 +1,14 @@
 import styled from "styled-components";
 import { palette } from "../Styles/colors";
 import { useNavigate } from "react-router";
+import { FaBuilding } from "react-icons/fa";
+import { MdLocationOn } from "react-icons/md";
+import { FaMoneyBill } from "react-icons/fa";
 
 const CustomDiv = styled.div`
-  background-color: ${palette.mainBlue};
-  border-radius: 5px;
+  padding: 5px 20px;
+  /*background-color: ${palette.mainBlue};*/
+  border-radius: 15px;
   margin: 1px;
   justify-content: center;
   align-items: center;
@@ -13,9 +17,14 @@ const CustomDiv = styled.div`
   width: 50%;
   height: 20%;
   transition: all 0.2s linear;
+  color: black;
+  box-shadow: 0 0 45px rgba(0, 0, 0, 0.09);
+  border: 1px solid ${palette.mainBlue};
   &:hover {
-    background-color: ${palette.lightBlue};
+    /*background-color: ${palette.lightBlue};*/
     cursor: pointer;
+    border: 1px solid ${palette.lightBlue};
+    box-shadow: none;
   }
 `;
 const OfferTitle = styled.div`
@@ -25,11 +34,23 @@ const OfferTitle = styled.div`
 `;
 const OfferInfo = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  /* border: 1px solid red; */
-  width: 50%;
+  flex-direction: column;
+  width: 90%;
+  text-align: center;
+
+  div:first-child {
+    display: flex-start;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  & .icon {
+    margin-right: 5px;
+    color: ${palette.mainBlue};
+  }
+  div:last-child {
+    margin-top: 5px; /* Space between rows */
+  }
 `;
 function Offer({ offer }) {
   // eslint-disable-next-line no-unused-vars
@@ -46,9 +67,33 @@ function Offer({ offer }) {
         <h2>{title}</h2>
       </OfferTitle>
       <OfferInfo>
-        <p>{company_name}</p>
-        <p>{location}</p>
-        <p>{salary + " " + currency}</p>
+        <div>
+          <p>
+            <span class="icon">
+              <FaBuilding />
+            </span>
+            {company_name}
+          </p>
+          <p>
+            <span class="icon">
+              <MdLocationOn />
+            </span>
+            {location}
+          </p>
+          <p>
+            <span class="icon">
+              <FaMoneyBill />
+            </span>
+            {salary + " " + currency}
+          </p>
+        </div>
+
+        <div>
+          <p>{description}</p>
+        </div>
+        <div>
+          <p>{type}</p>
+        </div>
       </OfferInfo>
     </CustomDiv>
   );

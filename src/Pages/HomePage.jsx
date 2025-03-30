@@ -40,70 +40,202 @@
 // }
 
 // export default HomePage;
-
 import styled from "styled-components";
 import Offers from "../Components/Offers";
 import Button from "../CustomTags/Button";
 import { useNavigate } from "react-router";
-import { palette } from "../Styles/colors";
+import { palette, colors } from "../Styles/colors";
 
 const CustomDiv = styled.div`
-  overflow-x: hidden;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 100vh; /* Ensures full-page height */
+  min-height: 100vh;
   width: 100%;
+  background: ${colors.backGroundColor.mainWhite};
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      circle at 50% 50%,
+      ${palette.purple} 0%,
+      transparent 50%
+    );
+    opacity: 0.1;
+    animation: pulse 8s infinite;
+    z-index: 0;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.1;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.2;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0.1;
+    }
+  }
 `;
 
 const Header = styled.div`
-  padding-left: 40px;
-  padding-right: 40px;
+  padding: 1rem 2rem;
   width: 100%;
   height: 10%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: #4f4f4f;
+  background: ${colors.backGroundColor.mainWhite};
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid ${palette.lightGray};
+  position: relative;
+  z-index: 1;
+
+  & h1 {
+    cursor: pointer;
+    margin-left: 1%;
+    color: ${palette.black};
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: ${palette.purple};
+      transform: translateY(-2px);
+    }
+  }
+
   & h2 {
     cursor: pointer;
     margin-left: 1%;
-    color: ${palette.white};
+    color: ${palette.black};
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: ${palette.purple};
+      transform: translateY(-2px);
+    }
   }
+
   & > Button {
     margin-right: 1%;
+    background: ${colors.button.buttonBackGroundColor.primary};
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    color: ${palette.white};
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        ${palette.white},
+        transparent
+      );
+      transition: 0.5s;
+    }
+
+    &:hover::before {
+      left: 100%;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px ${palette.purple}66;
+    }
   }
 `;
 
 const OffersContainer = styled.div`
-  background-color: ${palette.mainWhite};
+  background: ${colors.backGroundColor.white};
   min-height: 100vh;
-  width: 100%; /* Ensures full width */
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  /* padding: 20px 0; */
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+
+  & h2 {
+    color: ${palette.black};
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(
+      135deg,
+      ${palette.mainBlue},
+      ${palette.lightBlue}
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: bold;
+  }
 `;
+
 const LandingPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 2rem;
+
   & h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
     color: ${palette.black};
+    background: linear-gradient(
+      135deg,
+      ${palette.mainBlue},
+      ${palette.lightBlue}
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: bold;
+    text-shadow: 0 0 15px ${palette.mainBlue}4d;
   }
 
   & p {
     font-size: 1.5rem;
     color: ${palette.black};
+    max-width: 600px;
+    line-height: 1.6;
+    font-weight: 500;
   }
 `;
+
 function HomePage() {
   const navigate = useNavigate();
   return (
@@ -114,7 +246,7 @@ function HomePage() {
             navigate("/home");
           }}
         >
-          App 9lewi
+          AAMMI
         </h2>
         <Button
           onClick={() => {
@@ -125,11 +257,11 @@ function HomePage() {
         </Button>
       </Header>
       <LandingPage>
-        <h1>Welcome to the 9lewi App</h1>
+        <h1>Welcome to the AAMMI</h1>
         <p>Explore our offers and find the perfect job for you!</p>
       </LandingPage>
       <OffersContainer>
-        <h2>Our Offers: </h2>
+        <h2>Our Offers</h2>
         <Offers />
       </OffersContainer>
     </CustomDiv>

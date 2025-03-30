@@ -7,6 +7,9 @@ import Dashboard from "./Pages/Dashboard";
 import PageNotFound from "./Pages/PageNotFound";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import HomePage from "./Pages/HomePage";
+import { useQuery } from "@tanstack/react-query";
+import supabase from "./services/supabase";
+import "./styles/modern.css";
 
 function App() {
   return (

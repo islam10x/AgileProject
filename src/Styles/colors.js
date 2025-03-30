@@ -40,6 +40,7 @@ export const colors = {
     white: palette.white,
     mainWhite: palette.mainWhite,
     cyan: palette.cyan,
+    lightGray: palette.lightGray,
   },
   button: {
     buttonBackGroundColor: {

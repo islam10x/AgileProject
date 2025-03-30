@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { palette } from "../Styles/colors";
 
 const HeaderDiv = styled.div`
-  background-color: ${palette.cyan};
+  background-color: ${palette.mainBlue};
   width: 100%;
   height: 10%;
   display: flex;
