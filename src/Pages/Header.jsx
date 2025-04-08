@@ -6,6 +6,8 @@ import { logout as logOutApi } from "../services/authProvider";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { palette } from "../Styles/colors";
+import Profile from "../Components/profile";
+
 const NotificationsDiv = styled.div`
   padding: 0px;
   margin: 0px;
@@ -20,6 +22,7 @@ const NotificationsDiv = styled.div`
   top: 70px;
   right: 250px;
 `;
+
 const Notification = styled.div`
   margin-bottom: 10px;
   border-radius: 5px;
@@ -39,11 +42,15 @@ const Notification = styled.div`
     /* box-shadow: 0px 0px 2px 2px ${palette.blue}; */
   }
 `;
-const Header = ({ sidebarOpen, dropdownOpen, setDropdownOpen }) => {
+
+const Header = ({ sidebarOpen }) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false); // State to control profile modal
   const [notifications, setNotifications] = useState(false);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { name, last_name, email, role } = queryClient.getQueryData(["user"]);
+  
   const { mutate, isPending: isLoggingOut } = useMutation({
     mutationFn: logOutApi,
     mutationKey: ["user"],
@@ -55,70 +62,88 @@ const Header = ({ sidebarOpen, dropdownOpen, setDropdownOpen }) => {
       console.log(err);
     },
   });
+
+  // Function to open profile modal and close dropdown
+  const openProfile = () => {
+    setIsProfileOpen(true);
+    setDropdownOpen(false);
+  };
+
   return (
-    <header className="header">
-      <div className="header-search-container">
-        <div className="search-input-wrapper">
-          <input type="text" placeholder="Search..." className="search-input" />
-          <Search className="search-icon" size={18} />
+    <>
+      <header className="header">
+        <div className="header-search-container">
+          <div className="search-input-wrapper">
+            <input type="text" placeholder="Search..." className="search-input" />
+            <Search className="search-icon" size={18} />
+          </div>
         </div>
-      </div>
 
-      <div className="header-actions">
-        <button
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          onClick={() => setNotifications((state) => !state)}
-          className="notification-btn"
-        >
-          <Bell size={20} />
-          <span className="notification-badge">3</span>
-        </button>
-        {notifications && (
-          <NotificationsDiv>
-            <Notification>Notification 1</Notification>
-            <Notification>Notification 2</Notification>
-            <Notification>Notification 3</Notification>
-            <Notification>Notification 1</Notification>
-            <Notification>Notification 2</Notification>
-            <Notification>Notification 3</Notification>
-          </NotificationsDiv>
-        )}
-        <div className="user-dropdown">
+        <div className="header-actions">
           <button
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="user-dropdown-btn"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onClick={() => setNotifications((state) => !state)}
+            className="notification-btn"
           >
-            <div className="user-avatar">
-              <User size={18} />
-            </div>
-            {sidebarOpen && (
-              <>
-                <span className="user-name"> {name + " " + last_name}</span>
-                <ChevronDown size={16} />
-              </>
-            )}
+            <Bell size={20} />
+            <span className="notification-badge">3</span>
           </button>
-
-          {dropdownOpen && (
-            <div className="dropdown-menu">
-              <a className="dropdown-item">Profile</a>
-              <a className="dropdown-item">Account Settings</a>
-              <a
-                disabled={isLoggingOut}
-                onClick={mutate}
-                className="dropdown-item dropdown-item-danger"
-              >
-                Logout
-              </a>
-            </div>
+          {notifications && (
+            <NotificationsDiv>
+              <Notification>Notification 1</Notification>
+              <Notification>Notification 2</Notification>
+              <Notification>Notification 3</Notification>
+              <Notification>Notification 1</Notification>
+              <Notification>Notification 2</Notification>
+              <Notification>Notification 3</Notification>
+            </NotificationsDiv>
           )}
+          <div className="user-dropdown">
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="user-dropdown-btn"
+            >
+              <div className="user-avatar">
+                <User size={18} />
+              </div>
+              {sidebarOpen && (
+                <>
+                  <span className="user-name">{name + " " + last_name}</span>
+                  <ChevronDown size={16} />
+                </>
+              )}
+            </button>
+
+            {dropdownOpen && (
+              <div className="dropdown-menu">
+                <a onClick={openProfile} className="dropdown-item">Profile</a>
+                <a className="dropdown-item">Account Settings</a>
+                <a
+                  disabled={isLoggingOut}
+                  onClick={mutate}
+                  className="dropdown-item dropdown-item-danger"
+                >
+                  Logout
+                </a>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Profile Modal Component */}
+      {isProfileOpen && (
+        <Profile 
+          isOpen={isProfileOpen}
+          onClose={() => setIsProfileOpen(false)}
+          userData={{ name: name + " " + last_name, email }}
+        />
+      )}
+    </>
   );
 };
 
