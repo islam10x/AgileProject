@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 import { FaBuilding } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
 import { FaMoneyBill } from "react-icons/fa";
+import { useContext } from "react";
+import { Homecontext } from "../Context/LoginContext";
 
 const CustomDiv = styled.div`
   padding: 5px 20px;
@@ -56,10 +58,12 @@ function Offer({ offer }) {
   // eslint-disable-next-line no-unused-vars
   const { title, description, company_name, location, salary, currency, type } =
     { ...offer };
+  const { setHomePass } = useContext(Homecontext);
   const navigate = useNavigate();
   return (
     <CustomDiv
       onClick={() => {
+        setHomePass(true);
         navigate("/login");
       }}
     >

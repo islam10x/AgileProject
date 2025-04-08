@@ -10,30 +10,33 @@ import HomePage from "./Pages/HomePage";
 import { useQuery } from "@tanstack/react-query";
 import supabase from "./services/supabase";
 import "./styles/modern.css";
+import HomeProvider from "./Context/LoginContext";
 
 function App() {
   return (
-    <div className="container">
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <AppLayOut />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Navigate replace to="home" />} />
-            <Route path="dashboard" element={<Dashboard />} />
-          </Route>
-          <Route path="login" element={<Login />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="*" element={<PageNotFound />} />
-          <Route path="home" index element={<HomePage />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <HomeProvider>
+      <div className="container">
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <AppLayOut />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate replace to="home" />} />
+              <Route path="dashboard" element={<Dashboard />} />
+            </Route>
+            <Route path="home" index element={<HomePage />} />
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </HomeProvider>
   );
 }
 

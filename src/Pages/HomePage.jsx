@@ -45,6 +45,8 @@ import Offers from "../Components/Offers";
 import Button from "../CustomTags/Button";
 import { useNavigate } from "react-router";
 import { palette, colors } from "../Styles/colors";
+import { useContext } from "react";
+import { Homecontext } from "../Context/LoginContext";
 
 const CustomDiv = styled.div`
   overflow: hidden;
@@ -237,6 +239,7 @@ const LandingPage = styled.div`
 `;
 
 function HomePage() {
+  const { setHomePass } = useContext(Homecontext);
   const navigate = useNavigate();
   return (
     <CustomDiv>
@@ -251,6 +254,7 @@ function HomePage() {
         <Button
           onClick={() => {
             navigate("/login");
+            setHomePass(true);
           }}
         >
           Log in
