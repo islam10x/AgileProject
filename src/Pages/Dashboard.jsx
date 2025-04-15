@@ -7,7 +7,8 @@ import LeaveManagement from "./leavemanagement";
 import Settings from "./settings";
 import "./Dashboard.css";
 import Payroll from "./payroll";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchCurrentUser } from "../services/authProvider.js";
 
 const HRMDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -17,6 +18,20 @@ const HRMDashboard = () => {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const user = await fetchCurrentUser();
+        if (!user) {
+          window.location.reload();
+        }
+      } catch (error) {
+        console.error("Error checking user:", error);
+        window.location.reload();
+      }
+    };
+    checkUser();
+  }, []);
 
   // Function to render the appropriate content based on activeMenu
   const renderContent = () => {
