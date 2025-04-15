@@ -64,7 +64,7 @@ function Offer({ offer }) {
     <CustomDiv
       onClick={() => {
         setHomePass(true);
-        navigate("/login");
+        navigate("/Form");
       }}
     >
       <OfferTitle>

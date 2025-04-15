@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import supabase from "./services/supabase";
 import "./styles/modern.css";
 import HomeProvider from "./Context/LoginContext";
+import JobApplicationForm from "./Pages/JobApplicationForm";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               <Route path="dashboard" element={<Dashboard />} />
             </Route>
             <Route path="home" index element={<HomePage />} />
+            <Route path="Form" index element={<JobApplicationForm />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
             <Route path="*" element={<PageNotFound />} />
