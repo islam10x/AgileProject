@@ -9,6 +9,7 @@ import "./Dashboard.css";
 import Payroll from "./payroll";
 import { useEffect, useState } from "react";
 import { fetchCurrentUser } from "../services/authProvider.js";
+import NewDashboard from "./newdashboard.jsx";
 
 const HRMDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -37,7 +38,7 @@ const HRMDashboard = () => {
   const renderContent = () => {
     switch (activeMenu) {
       case "dashboard":
-        return <Maindashboard />;
+        return <NewDashboard />;
       case "employees":
         return <Employees />;
       case "recruitment":

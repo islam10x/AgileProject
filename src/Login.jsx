@@ -51,7 +51,7 @@ const Login = () => {
     <div className="login-container">
       <div className="login-header">
         <h2>
-          Login to <span className="app-name">CraftEd</span>
+          Login to <span className="app-name">AAMMI</span>
         </h2>
       </div>
 
