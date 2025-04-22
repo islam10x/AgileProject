@@ -10,6 +10,11 @@ import Payroll from "./payroll";
 import { useEffect, useState } from "react";
 import { fetchCurrentUser } from "../services/authProvider.js";
 import NewDashboard from "./newdashboard.jsx";
+import { NewEmployees } from "./newemployees.jsx";
+import { NewRecruitment } from "./newrecruitment.jsx";
+import NewLeaveManagement from "./newleavemanagement.jsx";
+import NewPayroll from "./newpayroll.jsx";
+import NewSettings from "./newsettings.jsx";
 
 const HRMDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -40,17 +45,17 @@ const HRMDashboard = () => {
       case "dashboard":
         return <NewDashboard />;
       case "employees":
-        return <Employees />;
+        return <NewEmployees />;
       case "recruitment":
-        return <Recruitment />;
+        return <NewRecruitment />;
       case "leave":
-        return <LeaveManagement />;
+        return <NewLeaveManagement />;
       case "payroll":
-        return <Payroll />;
+        return <NewPayroll />;
       case "settings":
-        return <Settings />;
+        return <NewSettings />;
       default:
-        return <Maindashboard />;
+        return <NewDashboard />;
     }
   };
 

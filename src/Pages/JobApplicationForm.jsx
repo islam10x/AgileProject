@@ -9,16 +9,9 @@ export default function JobApplicationForm() {
     phone: '',
     password: '',
     address: '',
-    city: '',
-    state: '',
-    zip: '',
     position: '',
-    experience: '',
-    education: '',
     resume: null,
     coverLetter: '',
-    startDate: '',
-    references: '',
     heardFrom: ''
   });
   

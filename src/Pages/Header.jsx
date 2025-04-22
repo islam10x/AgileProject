@@ -121,7 +121,6 @@ const Header = ({ sidebarOpen }) => {
             {dropdownOpen && (
               <div className="dropdown-menu">
                 <a onClick={openProfile} className="dropdown-item">Profile</a>
-                <a className="dropdown-item">Account Settings</a>
                 <a
                   disabled={isLoggingOut}
                   onClick={mutate}
