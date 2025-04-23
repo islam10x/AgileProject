@@ -43,7 +43,7 @@ const HRMDashboard = () => {
   const renderContent = () => {
     switch (activeMenu) {
       case "dashboard":
-        return <NewDashboard />;
+        return <NewDashboard setActiveMenu={setActiveMenu} />;
       case "employees":
         return <NewEmployees />;
       case "recruitment":
@@ -55,7 +55,7 @@ const HRMDashboard = () => {
       case "settings":
         return <NewSettings />;
       default:
-        return <NewDashboard />;
+        return <NewDashboard setActiveMenu={setActiveMenu} />;
     }
   };
 

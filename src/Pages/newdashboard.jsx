@@ -9,10 +9,11 @@ import {
   BarChart3,
 } from "lucide-react";
 import "./newdashboard.css";
+import { useContext } from "react";
 
-function StatCard({ icon: Icon, label, value, trend }) {
+function StatCard({ icon: Icon, label, value, trend, onClick }) {
   return (
-    <div className="stat-card">
+    <div className="stat-card clickable" onClick={onClick}>
       <div className="stat-header">
         <div className="stat-icon">
           <Icon />
@@ -38,7 +39,12 @@ function EmployeeCard({ name, role, department, image }) {
   );
 }
 
-export function NewDashboard() {
+export function NewDashboard({ setActiveMenu }) {
+  // Function to navigate to different pages
+  const navigateToPage = (page) => {
+    setActiveMenu(page);
+  };
+
   return (
     <div className="dashboard">
       <div className="stats-grid">
@@ -47,14 +53,26 @@ export function NewDashboard() {
           label="Total Employees"
           value="248"
           trend="+12% vs last month"
+          onClick={() => navigateToPage('employees')}
         />
-        <StatCard icon={DollarSign} label="Average Salary" value="$65,400" />
-        <StatCard icon={Clock} label="Time to Hire" value="18 days" />
+        <StatCard 
+          icon={DollarSign} 
+          label="Average Salary" 
+          value="$65,400" 
+          onClick={() => navigateToPage('payroll')}
+        />
+        <StatCard 
+          icon={Clock} 
+          label="Time to Hire" 
+          value="18 days" 
+          onClick={() => navigateToPage('recruitment')}
+        />
         <StatCard
           icon={Award}
           label="Employee Satisfaction"
           value="94%"
           trend="+5% vs last quarter"
+          onClick={() => navigateToPage('leave')}
         />
       </div>
 
