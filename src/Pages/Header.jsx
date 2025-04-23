@@ -50,7 +50,7 @@ const Header = ({ sidebarOpen }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { name, last_name, email, role } = queryClient.getQueryData(["user"]);
-  
+
   const { mutate, isPending: isLoggingOut } = useMutation({
     mutationFn: logOutApi,
     mutationKey: ["user"],
@@ -74,34 +74,16 @@ const Header = ({ sidebarOpen }) => {
       <header className="header">
         <div className="header-search-container">
           <div className="search-input-wrapper">
-            <input type="text" placeholder="Search..." className="search-input" />
+            <input
+              type="text"
+              placeholder="Search..."
+              className="search-input"
+            />
             <Search className="search-icon" size={18} />
           </div>
         </div>
 
         <div className="header-actions">
-          <button
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            onClick={() => setNotifications((state) => !state)}
-            className="notification-btn"
-          >
-            <Bell size={20} />
-            <span className="notification-badge">3</span>
-          </button>
-          {notifications && (
-            <NotificationsDiv>
-              <Notification>Notification 1</Notification>
-              <Notification>Notification 2</Notification>
-              <Notification>Notification 3</Notification>
-              <Notification>Notification 1</Notification>
-              <Notification>Notification 2</Notification>
-              <Notification>Notification 3</Notification>
-            </NotificationsDiv>
-          )}
           <div className="user-dropdown">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -120,7 +102,9 @@ const Header = ({ sidebarOpen }) => {
 
             {dropdownOpen && (
               <div className="dropdown-menu">
-                <a onClick={openProfile} className="dropdown-item">Profile</a>
+                <a onClick={openProfile} className="dropdown-item">
+                  Profile
+                </a>
                 <a
                   disabled={isLoggingOut}
                   onClick={mutate}
@@ -136,7 +120,7 @@ const Header = ({ sidebarOpen }) => {
 
       {/* Profile Modal Component */}
       {isProfileOpen && (
-        <Profile 
+        <Profile
           isOpen={isProfileOpen}
           onClose={() => setIsProfileOpen(false)}
           userData={{ name: name + " " + last_name, email }}
