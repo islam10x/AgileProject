@@ -7,7 +7,11 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { palette } from "../Styles/colors";
 import Profile from "../Components/profile";
-
+const ProfileImg = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+`;
 const NotificationsDiv = styled.div`
   padding: 0px;
   margin: 0px;
@@ -49,8 +53,10 @@ const Header = ({ sidebarOpen }) => {
   const [notifications, setNotifications] = useState(false);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { name, last_name, email, role } = queryClient.getQueryData(["user"]);
-  
+  const { name, last_name, email, role, id, image } = queryClient.getQueryData([
+    "user",
+  ]);
+
   const { mutate, isPending: isLoggingOut } = useMutation({
     mutationFn: logOutApi,
     mutationKey: ["user"],
@@ -74,7 +80,11 @@ const Header = ({ sidebarOpen }) => {
       <header className="header">
         <div className="header-search-container">
           <div className="search-input-wrapper">
-            <input type="text" placeholder="Search..." className="search-input" />
+            <input
+              type="text"
+              placeholder="Search..."
+              className="search-input"
+            />
             <Search className="search-icon" size={18} />
           </div>
         </div>
@@ -108,7 +118,11 @@ const Header = ({ sidebarOpen }) => {
               className="user-dropdown-btn"
             >
               <div className="user-avatar">
-                <User size={18} />
+                {image ? (
+                  <ProfileImg src={image} alt="User Avatar" />
+                ) : (
+                  <User size={18} />
+                )}
               </div>
               {sidebarOpen && (
                 <>
@@ -120,7 +134,9 @@ const Header = ({ sidebarOpen }) => {
 
             {dropdownOpen && (
               <div className="dropdown-menu">
-                <a onClick={openProfile} className="dropdown-item">Profile</a>
+                <a onClick={openProfile} className="dropdown-item">
+                  Profile
+                </a>
                 <a
                   disabled={isLoggingOut}
                   onClick={mutate}
@@ -136,10 +152,16 @@ const Header = ({ sidebarOpen }) => {
 
       {/* Profile Modal Component */}
       {isProfileOpen && (
-        <Profile 
+        <Profile
           isOpen={isProfileOpen}
           onClose={() => setIsProfileOpen(false)}
-          userData={{ name: name + " " + last_name, email }}
+          userData={{
+            first_name: name,
+            last_name: last_name,
+            email,
+            id,
+            image,
+          }}
         />
       )}
     </>
