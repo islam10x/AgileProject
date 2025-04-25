@@ -15,12 +15,17 @@ import { NewRecruitment } from "./newrecruitment.jsx";
 import NewLeaveManagement from "./newleavemanagement.jsx";
 import NewPayroll from "./newpayroll.jsx";
 import NewSettings from "./newsettings.jsx";
+import Offers from "../Components/Offers.jsx";
+import OffersDashboard from "./OffersDashboard.jsx";
+import { useQueryClient } from "@tanstack/react-query";
+import RequestsDashboard from "./RequestsDashboard.jsx";
 
 const HRMDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeMenu, setActiveMenu] = useState("dashboard");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const queryClient = useQueryClient();
+  const user = queryClient.getQueryData(["user"]);
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
@@ -42,6 +47,10 @@ const HRMDashboard = () => {
   // Function to render the appropriate content based on activeMenu
   const renderContent = () => {
     switch (activeMenu) {
+      case "requests":
+        return <RequestsDashboard user={user} />;
+      case "offers":
+        return <OffersDashboard user={user} />;
       case "dashboard":
         return <NewDashboard />;
       case "employees":

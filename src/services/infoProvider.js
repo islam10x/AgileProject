@@ -5,3 +5,13 @@ export async function getOffers() {
   if (error) throw new Error(error.message);
   return offers;
 }
+
+export async function getOffer(id) {
+  let { data: offer, error } = await supabase
+    .from("offers")
+    .select("*")
+    .eq("id", id)
+    .single();
+  if (error) throw new Error(error.message);
+  return offer;
+}
