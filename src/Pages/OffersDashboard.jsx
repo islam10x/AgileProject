@@ -60,7 +60,7 @@ function OfferCard({ offer, user }) {
           toast.success("Application sent successfully");
         }
       } else {
-        toast.warning("Application not available");
+        toast.warning("user already applied for this offer");
       }
     } catch (error) {
       toast.error("Failed to submit application");

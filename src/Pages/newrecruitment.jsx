@@ -12,74 +12,77 @@ import {
   Filter
 } from "lucide-react";
 import "./newrecruitment.css";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function NewRecruitment() {
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const jobOpenings = [
-    {
-      id: 1,
-      title: "Senior Frontend Developer",
-      department: "Engineering",
-      location: "New York, NY / Remote",
-      salary: "$120,000 - $150,000",
-      postedDate: "Mar 10, 2025",
-      applicants: 45,
-      status: "Active"
-    },
-    {
-      id: 2,
-      title: "Product Marketing Manager",
-      department: "Marketing",
-      location: "San Francisco, CA",
-      salary: "$110,000 - $135,000",
-      postedDate: "Mar 15, 2025",
-      applicants: 28,
-      status: "Active"
-    },
-    {
-      id: 3,
-      title: "UX/UI Designer",
-      department: "Design",
-      location: "Remote",
-      salary: "$90,000 - $120,000",
-      postedDate: "Mar 5, 2025",
-      applicants: 57,
-      status: "Active"
-    },
-    {
-      id: 4,
-      title: "Sales Representative",
-      department: "Sales",
-      location: "Chicago, IL",
-      salary: "$75,000 - $95,000 + Commission",
-      postedDate: "Feb 28, 2025",
-      applicants: 34,
-      status: "Active"
-    },
-    {
-      id: 5,
-      title: "DevOps Engineer",
-      department: "Engineering",
-      location: "Remote",
-      salary: "$130,000 - $160,000",
-      postedDate: "Mar 12, 2025",
-      applicants: 19,
-      status: "Active"
-    },
-    {
-      id: 6,
-      title: "Content Writer",
-      department: "Marketing",
-      location: "Boston, MA / Remote",
-      salary: "$70,000 - $90,000",
-      postedDate: "Feb 20, 2025",
-      applicants: 42,
-      status: "Closed"
-    }
-  ];
-
+  // const jobOpenings = [
+  //   {
+  //     id: 1,
+  //     title: "Senior Frontend Developer",
+  //     department: "Engineering",
+  //     location: "New York, NY / Remote",
+  //     salary: "$120,000 - $150,000",
+  //     postedDate: "Mar 10, 2025",
+  //     applicants: 45,
+  //     status: "Active"
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Product Marketing Manager",
+  //     department: "Marketing",
+  //     location: "San Francisco, CA",
+  //     salary: "$110,000 - $135,000",
+  //     postedDate: "Mar 15, 2025",
+  //     applicants: 28,
+  //     status: "Active"
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "UX/UI Designer",
+  //     department: "Design",
+  //     location: "Remote",
+  //     salary: "$90,000 - $120,000",
+  //     postedDate: "Mar 5, 2025",
+  //     applicants: 57,
+  //     status: "Active"
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Sales Representative",
+  //     department: "Sales",
+  //     location: "Chicago, IL",
+  //     salary: "$75,000 - $95,000 + Commission",
+  //     postedDate: "Feb 28, 2025",
+  //     applicants: 34,
+  //     status: "Active"
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "DevOps Engineer",
+  //     department: "Engineering",
+  //     location: "Remote",
+  //     salary: "$130,000 - $160,000",
+  //     postedDate: "Mar 12, 2025",
+  //     applicants: 19,
+  //     status: "Active"
+  //   },
+  //   {
+  //     id: 6,
+  //     title: "Content Writer",
+  //     department: "Marketing",
+  //     location: "Boston, MA / Remote",
+  //     salary: "$70,000 - $90,000",
+  //     postedDate: "Feb 20, 2025",
+  //     applicants: 42,
+  //     status: "Closed"
+  //   }
+  // ];
+  const queryClient = useQueryClient();
+  const jobOpenings = queryClient.getQueryData(["offers"]) || [];
+  console.log(jobOpenings);
   const candidates = [
     {
       id: 1,
@@ -275,9 +278,9 @@ export function NewRecruitment() {
                     <Users size={16} />
                     <span>{job.applicants} Applicants</span>
                   </div>
-                  <div className={`job-status ${job.status.toLowerCase()}`}>
+                  {/* <div className={`job-status ${job.status.toLowerCase()}`}>
                     {job.status}
-                  </div>
+                  </div> */}
                 </div>
                 <button className="view-job-btn">
                   <ChevronRight size={20} />
