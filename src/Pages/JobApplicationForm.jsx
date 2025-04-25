@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { candidateService } from '../services/candidateService';
 import './JobApplicationForm.css';
 
 export default function JobApplicationForm() {
@@ -18,6 +19,8 @@ export default function JobApplicationForm() {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
   
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -63,11 +66,53 @@ export default function JobApplicationForm() {
     });
   };
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitError(null);
+    
     if (validateForm()) {
-      console.log("Form submitted successfully:", formData);
-      setSubmitted(true);
+      setLoading(true);
+      try {
+        // Upload resume if exists
+        let resumeUrl = null;
+        if (formData.resume) {
+          resumeUrl = await candidateService.uploadResume(
+            formData.resume, 
+            formData.firstName, 
+            formData.lastName
+          );
+        }
+        
+        // Prepare data for insertion
+        const candidateData = {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          position: formData.position,
+          resume_url: resumeUrl,
+          cover_letter: formData.coverLetter,
+          heard_from: formData.heardFrom,
+          created_at: new Date().toISOString(),
+          status: 'new'
+        };
+        
+        // Submit candidate data using our service
+        const result = await candidateService.createCandidate(candidateData);
+        
+        if (!result.success) {
+          throw new Error(result.error || "Failed to submit application");
+        }
+        
+        console.log("Application submitted successfully:", result.data);
+        setSubmitted(true);
+      } catch (error) {
+        console.error("Error submitting application:", error);
+        setSubmitError(error.message || "Failed to submit application. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
     }
   };
   
@@ -114,6 +159,17 @@ export default function JobApplicationForm() {
           <h1>Job Application</h1>
           <p>Please fill out all required fields to submit your application</p>
         </div>
+        
+        {submitError && (
+          <div className="error-banner">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            {submitError}
+          </div>
+        )}
         
         <form onSubmit={handleSubmit}>
           {/* Personal Information Section */}
@@ -245,7 +301,6 @@ export default function JobApplicationForm() {
                   className="input-field"
                 />
               </div>
-              
             </div>
           </div>
           
@@ -288,6 +343,7 @@ export default function JobApplicationForm() {
               </select>
             </div>
           </div>
+          
           {/* Documents Section */}
           <div className="form-section">
             <h2>Application Documents</h2>
@@ -297,6 +353,7 @@ export default function JobApplicationForm() {
                 type="file"
                 onChange={handleFileChange}
                 className="file-input"
+                accept=".pdf,.doc,.docx"
               />
               <p className="help-text">Accepted formats: PDF, DOC, DOCX (Max 5MB)</p>
             </div>
@@ -315,14 +372,18 @@ export default function JobApplicationForm() {
           </div>
           
           <div className="checkbox-group">
-            <input type="checkbox" id="terms" />
+            <input type="checkbox" id="terms" required />
             <label htmlFor="terms">
               I certify that all information provided is true and complete to the best of my knowledge
             </label>
           </div>
           
-          <button type="submit" className="submit-btn">
-            Submit Application
+          <button 
+            type="submit" 
+            className="submit-btn"
+            disabled={loading}
+          >
+            {loading ? 'Submitting...' : 'Submit Application'}
           </button>
         </form>
       </div>
