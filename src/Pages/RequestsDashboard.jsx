@@ -15,6 +15,7 @@ import { format, parseISO } from "date-fns";
 import { toast } from "react-toastify";
 import { getRequests } from "../services/offerRequestProvider";
 import { getOffer } from "../services/infoProvider";
+import Spinner from "../Components/Spinner";
 
 function StatCard({ icon: Icon, label, value, trend }) {
   return (
@@ -34,13 +35,14 @@ function StatCard({ icon: Icon, label, value, trend }) {
 function RequestCard({ request, onRefresh }) {
   console.log(request);
   const { data: offerDetails, isPending } = useQuery({
-    queryKey: ["offer", request.Offer_id],
+    queryKey: ["offer", request.OfferId],
     queryFn: async () => await getOffer(request.OfferId),
     refetchOnWindowFocus: false,
     staleTime: 5 * 60 * 1000,
     retry: false,
   });
-
+  console.log(offerDetails);
+  if (isPending) return <Spinner />;
   const statusIcons = {
     pending: <Clock className="w-5 h-5 text-yellow-500" />,
     accepted: <CheckCircle className="w-5 h-5 text-green-500" />,
@@ -132,10 +134,10 @@ export default function RequestsDashboard({ user }) {
   const rejectedRequests =
     requests?.filter((r) => r?.status === "rejected")?.length || 0;
 
-  const handleRefresh = async (requestId) => {
+  const handleRefresh = async (offerId) => {
     try {
       toast.success("Request status refreshed");
-      await queryClient.invalidateQueries(["requests", user?.id]);
+      await queryClient.invalidateQueries(["offer", offerId]);
     } catch (error) {
       toast.error("Failed to refresh request");
       console.error(error);
@@ -210,7 +212,14 @@ export default function RequestsDashboard({ user }) {
       <div className="dashboard-card">
         <div className="card-header">
           <h2>Your Applications</h2>
-          <FileText />
+          <div>
+            <button
+              className="refresh-button"
+              onClick={() => queryClient.refetchQueries(["requests"])}
+            >
+              <RefreshCw />
+            </button>
+          </div>
         </div>
         <div className="requests-list">
           {totalRequests > 0 ? (
@@ -218,7 +227,7 @@ export default function RequestsDashboard({ user }) {
               <RequestCard
                 key={request.id}
                 request={request}
-                onRefresh={handleRefresh}
+                onRefresh={() => handleRefresh(request.offerId)}
               />
             ))
           ) : (
