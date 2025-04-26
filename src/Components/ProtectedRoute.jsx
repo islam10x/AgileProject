@@ -16,7 +16,7 @@ export default function ProtectedRoute({ children }) {
   });
 
   if (isPending) return <Spinner />;
-  // if (!homepass) return <Navigate to="/home" replace />;
+  if (!homepass) return <Navigate to="/home" replace />;
   if (!user) return <Navigate to="/login" replace />;
 
   return <div> {children}</div>; // Let children render (AppLayOut wraps at a higher level)

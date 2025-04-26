@@ -1,31 +1,31 @@
-import { useState } from 'react';
-import { candidateService } from '../services/candidateService';
-import './JobApplicationForm.css';
+import { useState } from "react";
+import { candidateService } from "../services/candidateService";
+import "./JobApplicationForm.css";
 
 export default function JobApplicationForm() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: '',
-    address: '',
-    position: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    password: "",
+    address: "",
+    position: "",
     resume: null,
-    coverLetter: '',
-    heardFrom: ''
+    coverLetter: "",
+    heardFrom: "",
   });
-  
+
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState(null);
-  
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  
+
   const validateForm = () => {
     const newErrors = {};
     if (!formData.firstName) newErrors.firstName = "First name is required";
@@ -38,38 +38,38 @@ export default function JobApplicationForm() {
     if (!formData.phone) newErrors.phone = "Phone number is required";
     if (!formData.password) newErrors.password = "Password is required";
     if (!formData.position) newErrors.position = "Position is required";
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors({
         ...errors,
-        [name]: null
+        [name]: null,
       });
     }
   };
-  
+
   const handleFileChange = (e) => {
     setFormData({
       ...formData,
-      resume: e.target.files[0]
+      resume: e.target.files[0],
     });
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitError(null);
-    
+
     if (validateForm()) {
       setLoading(true);
       try {
@@ -77,12 +77,12 @@ export default function JobApplicationForm() {
         let resumeUrl = null;
         if (formData.resume) {
           resumeUrl = await candidateService.uploadResume(
-            formData.resume, 
-            formData.firstName, 
+            formData.resume,
+            formData.firstName,
             formData.lastName
           );
         }
-        
+
         // Prepare data for insertion
         const candidateData = {
           first_name: formData.firstName,
@@ -95,53 +95,69 @@ export default function JobApplicationForm() {
           cover_letter: formData.coverLetter,
           heard_from: formData.heardFrom,
           created_at: new Date().toISOString(),
-          status: 'new'
+          status: "new",
         };
-        
+
         // Submit candidate data using our service
         const result = await candidateService.createCandidate(candidateData);
-        
+
         if (!result.success) {
           throw new Error(result.error || "Failed to submit application");
         }
-        
+
         console.log("Application submitted successfully:", result.data);
         setSubmitted(true);
       } catch (error) {
         console.error("Error submitting application:", error);
-        setSubmitError(error.message || "Failed to submit application. Please try again later.");
+        setSubmitError(
+          error.message ||
+            "Failed to submit application. Please try again later."
+        );
       } finally {
         setLoading(false);
       }
     }
   };
-  
+
   if (submitted) {
     return (
       <div className="page-container">
         <div className="success-container">
           <div className="success-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M20 6L9 17l-5-5" />
             </svg>
           </div>
           <h2>Application Submitted!</h2>
-          <p>Thank you for your application. We will review your information and contact you soon.</p>
-          <button 
+          <p>
+            Thank you for your application. We will review your information and
+            contact you soon.
+          </p>
+          <button
             className="submit-btn"
             onClick={() => {
               setSubmitted(false);
               setFormData({
-                firstName: '',
-                lastName: '',
-                email: '',
-                phone: '',
-                password: '',
-                address: '',
-                position: '',
+                firstName: "",
+                lastName: "",
+                email: "",
+                phone: "",
+                password: "",
+                address: "",
+                position: "",
                 resume: null,
-                coverLetter: '',
-                heardFrom: ''
+                coverLetter: "",
+                heardFrom: "",
               });
             }}
           >
@@ -151,7 +167,7 @@ export default function JobApplicationForm() {
       </div>
     );
   }
-  
+
   return (
     <div className="page-container">
       <div className="form-container">
@@ -159,10 +175,20 @@ export default function JobApplicationForm() {
           <h1>Job Application</h1>
           <p>Please fill out all required fields to submit your application</p>
         </div>
-        
+
         {submitError && (
           <div className="error-banner">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <circle cx="12" cy="12" r="10" />
               <line x1="12" y1="8" x2="12" y2="12" />
               <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -170,7 +196,7 @@ export default function JobApplicationForm() {
             {submitError}
           </div>
         )}
-        
+
         <form onSubmit={handleSubmit}>
           {/* Personal Information Section */}
           <div className="form-section">
@@ -183,18 +209,32 @@ export default function JobApplicationForm() {
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className={errors.firstName ? 'input-field error' : 'input-field'}
+                  className={
+                    errors.firstName ? "input-field error" : "input-field"
+                  }
                 />
-                {errors.firstName && <p className="error-message">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
-                  {errors.firstName}
-                </p>}
+                {errors.firstName && (
+                  <p className="error-message">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="12" />
+                      <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    {errors.firstName}
+                  </p>
+                )}
               </div>
-              
+
               <div className="form-group">
                 <label>Last Name *</label>
                 <input
@@ -202,18 +242,32 @@ export default function JobApplicationForm() {
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className={errors.lastName ? 'input-field error' : 'input-field'}
+                  className={
+                    errors.lastName ? "input-field error" : "input-field"
+                  }
                 />
-                {errors.lastName && <p className="error-message">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
-                  {errors.lastName}
-                </p>}
+                {errors.lastName && (
+                  <p className="error-message">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="12" />
+                      <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    {errors.lastName}
+                  </p>
+                )}
               </div>
-              
+
               <div className="form-group">
                 <label>Email *</label>
                 <input
@@ -221,18 +275,30 @@ export default function JobApplicationForm() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={errors.email ? 'input-field error' : 'input-field'}
+                  className={errors.email ? "input-field error" : "input-field"}
                 />
-                {errors.email && <p className="error-message">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
-                  {errors.email}
-                </p>}
+                {errors.email && (
+                  <p className="error-message">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="12" />
+                      <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    {errors.email}
+                  </p>
+                )}
               </div>
-              
+
               <div className="form-group">
                 <label>Phone Number *</label>
                 <input
@@ -240,18 +306,30 @@ export default function JobApplicationForm() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className={errors.phone ? 'input-field error' : 'input-field'}
+                  className={errors.phone ? "input-field error" : "input-field"}
                 />
-                {errors.phone && <p className="error-message">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
-                  {errors.phone}
-                </p>}
+                {errors.phone && (
+                  <p className="error-message">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="12" />
+                      <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    {errors.phone}
+                  </p>
+                )}
               </div>
-              
+
               <div className="form-group">
                 <label>Create Password *</label>
                 <div className="password-wrapper">
@@ -260,7 +338,9 @@ export default function JobApplicationForm() {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className={errors.password ? 'input-field error' : 'input-field'}
+                    className={
+                      errors.password ? "input-field error" : "input-field"
+                    }
                   />
                   <button
                     type="button"
@@ -268,28 +348,60 @@ export default function JobApplicationForm() {
                     className="icon-btn"
                   >
                     {showPassword ? (
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
                         <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
                         <line x1="1" y1="1" x2="23" y2="23" />
                       </svg>
                     ) : (
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                         <circle cx="12" cy="12" r="3" />
                       </svg>
                     )}
                   </button>
                 </div>
-                {errors.password && <p className="error-message">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
-                  {errors.password}
-                </p>}
+                {errors.password && (
+                  <p className="error-message">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="12" />
+                      <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    {errors.password}
+                  </p>
+                )}
               </div>
-              
+
               <div className="form-group full-width">
                 <label>Full Address</label>
                 <input
@@ -303,7 +415,7 @@ export default function JobApplicationForm() {
               </div>
             </div>
           </div>
-          
+
           {/* Job Information Section */}
           <div className="form-section">
             <h2>Job Information</h2>
@@ -314,18 +426,32 @@ export default function JobApplicationForm() {
                 name="position"
                 value={formData.position}
                 onChange={handleChange}
-                className={errors.position ? 'input-field error' : 'input-field'}
+                className={
+                  errors.position ? "input-field error" : "input-field"
+                }
               />
-              {errors.position && <p className="error-message">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="12" y1="8" x2="12" y2="12" />
-                  <line x1="12" y1="16" x2="12.01" y2="16" />
-                </svg>
-                {errors.position}
-              </p>}
+              {errors.position && (
+                <p className="error-message">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                  </svg>
+                  {errors.position}
+                </p>
+              )}
             </div>
-            
+
             <div className="form-group">
               <label>How did you hear about this position?</label>
               <select
@@ -343,7 +469,7 @@ export default function JobApplicationForm() {
               </select>
             </div>
           </div>
-          
+
           {/* Documents Section */}
           <div className="form-section">
             <h2>Application Documents</h2>
@@ -355,9 +481,11 @@ export default function JobApplicationForm() {
                 className="file-input"
                 accept=".pdf,.doc,.docx"
               />
-              <p className="help-text">Accepted formats: PDF, DOC, DOCX (Max 5MB)</p>
+              <p className="help-text">
+                Accepted formats: PDF, DOC, DOCX (Max 5MB)
+              </p>
             </div>
-            
+
             <div className="form-group">
               <label>Cover Letter</label>
               <textarea
@@ -370,20 +498,17 @@ export default function JobApplicationForm() {
               ></textarea>
             </div>
           </div>
-          
+
           <div className="checkbox-group">
             <input type="checkbox" id="terms" required />
             <label htmlFor="terms">
-              I certify that all information provided is true and complete to the best of my knowledge
+              I certify that all information provided is true and complete to
+              the best of my knowledge
             </label>
           </div>
-          
-          <button 
-            type="submit" 
-            className="submit-btn"
-            disabled={loading}
-          >
-            {loading ? 'Submitting...' : 'Submit Application'}
+
+          <button type="submit" className="submit-btn" disabled={loading}>
+            {loading ? "Submitting..." : "Submit Application"}
           </button>
         </form>
       </div>
