@@ -47,6 +47,9 @@ const Login = () => {
   function handleLogin() {
     mutate({ email, password });
   }
+  if (loading) {
+    return <Spinner />;
+  }
   return (
     <div className="login-container">
       <div className="login-header">
@@ -91,9 +94,7 @@ const Login = () => {
           className={`login-btn ${loading ? "disabled" : ""}`}
           onClick={handleLogin}
           disabled={loading}
-        >
-          {loading ? "logging in" : "Login"}
-        </button>
+        >Login</button>
 
         {error && (
           <div className="error-message">

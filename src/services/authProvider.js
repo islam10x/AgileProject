@@ -87,6 +87,19 @@ export async function getUserCountByRole(role) {
 
   return count;
 }
+export async function getEmployeeCount(role) {
+  const { count, error } = await supabase
+    .from("Users")
+    .select("*", { count: "exact", head: true })
+    .neq("role", role);
+
+  if (error) {
+    toast.error(`Error retrieving user count: ${error.message}`);
+    throw new Error(error.message);
+  }
+
+  return count;
+}
 
 export async function updateData({ userId, currentData, newData }) {
   console.log("currentData: ", currentData);

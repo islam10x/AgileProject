@@ -1,3 +1,224 @@
+/* Theme Variables and CSS */
+
+:root {
+  /* Light theme variables (default) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+  
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-tertiary: #6b7280;
+  
+  --border-color: #e5e7eb;
+  --divider-color: #e5e7eb;
+  
+  --card-bg: #ffffff;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  
+  /* Accent color variables can be used with any theme */
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --accent-green: #10b981;
+  --accent-orange: #f59e0b;
+  
+  /* Default accent color */
+  --accent-color: var(--accent-blue);
+  
+  /* Default layout spacing */
+  --spacing-compact: 12px;
+  --spacing-comfortable: 20px;
+  --spacing-current: var(--spacing-comfortable);
+}
+
+/* Dark theme overrides */
+.theme-dark {
+  --bg-primary: #111827;
+  --bg-secondary: #1f2937;
+  --bg-tertiary: #374151;
+  
+  --text-primary: #f9fafb;
+  --text-secondary: #e5e7eb;
+  --text-tertiary: #9ca3af;
+  
+  --border-color: #374151;
+  --divider-color: #374151;
+  
+  --card-bg: #1f2937;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* System theme follows the system preference */
+.theme-system.theme-dark-mode {
+  --bg-primary: #111827;
+  --bg-secondary: #1f2937;
+  --bg-tertiary: #374151;
+  
+  --text-primary: #f9fafb;
+  --text-secondary: #e5e7eb;
+  --text-tertiary: #9ca3af;
+  
+  --border-color: #374151;
+  --divider-color: #374151;
+  
+  --card-bg: #1f2937;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Accent color classes */
+.accent-blue {
+  --accent-color: var(--accent-blue);
+}
+
+.accent-purple {
+  --accent-color: var(--accent-purple);
+}
+
+.accent-green {
+  --accent-color: var(--accent-green);
+}
+
+.accent-orange {
+  --accent-color: var(--accent-orange);
+}
+
+/* Layout density classes */
+.layout-compact {
+  --spacing-current: var(--spacing-compact);
+}
+
+.layout-comfortable {
+  --spacing-current: var(--spacing-comfortable);
+}
+
+/* Apply theme variables to elements */
+.settings-dashboard {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.settings-title {
+  color: var(--text-primary);
+}
+
+.settings-subtitle {
+  color: var(--text-tertiary);
+}
+
+.settings-tab {
+  color: var(--text-secondary);
+  background-color: transparent;
+}
+
+.settings-tab.active {
+  color: var(--accent-color);
+  background-color: var(--bg-primary);
+}
+
+.settings-section {
+  background-color: var(--bg-primary);
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+}
+
+.section-title {
+  color: var(--text-primary);
+}
+
+.section-description {
+  color: var(--text-tertiary);
+}
+
+.system-setting-card, .module-setting-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+.setting-title, .module-title {
+  color: var(--text-primary);
+}
+
+.setting-description, .module-updated {
+  color: var(--text-tertiary);
+}
+
+.setting-meta, .feature-count {
+  color: var(--text-tertiary);
+}
+
+.action-button {
+  color: var(--text-tertiary);
+  background-color: transparent;
+}
+
+.action-button:hover {
+  color: var(--accent-color);
+}
+
+.action-button.save {
+  color: var(--accent-green);
+}
+
+.action-button.cancel {
+  color: var(--text-tertiary);
+}
+
+.toggle-button {
+  color: var(--accent-color);
+  background-color: transparent;
+}
+
+/* Form elements in dark mode */
+.theme-dark input, .theme-dark textarea,
+.theme-system.theme-dark-mode input, .theme-system.theme-dark-mode textarea {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.theme-dark label, .theme-system.theme-dark-mode label {
+  color: var(--text-secondary);
+}
+
+/* Appearance section styling */
+.appearance-actions {
+  border-top: 1px solid var(--divider-color);
+}
+
+.current-settings h3 {
+  color: var(--text-secondary);
+}
+
+.current-settings li {
+  color: var(--text-tertiary);
+}
+
+.setting-value {
+  color: var(--text-primary);
+}
+
+/* Configure and Save buttons */
+.module-configure, .module-manage {
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.module-configure:hover, .module-manage:hover {
+  background-color: var(--bg-secondary);
+}
+
+.save-appearance {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+}
+
+.save-appearance:hover {
+  filter: brightness(110%);
+}
+
+
 .settings-dashboard {
     flex: 1;
     padding: 2rem;
@@ -521,4 +742,187 @@
       grid-template-columns: 1fr;
       padding: 1.5rem;
     }
+    /* Appearance Section Styles */
+
+/* Theme, Color, and Layout Option Styles */
+.theme-options, .color-options, .layout-options {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+.theme-option, .layout-option {
+  cursor: pointer;
+  text-align: center;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.theme-option:hover, .layout-option:hover {
+  opacity: 1;
+}
+
+.theme-option.active, .layout-option.active {
+  opacity: 1;
+}
+
+.theme-preview, .layout-preview {
+  width: 80px;
+  height: 50px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.theme-option.active .theme-preview, 
+.layout-option.active .layout-preview {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+/* Theme Preview Backgrounds */
+.light-theme {
+  background: linear-gradient(to bottom, #f9fafb 50%, #f3f4f6 50%);
+}
+
+.dark-theme {
+  background: linear-gradient(to bottom, #1f2937 50%, #111827 50%);
+}
+
+.system-theme {
+  background: linear-gradient(135deg, #f9fafb 50%, #111827 50%);
+}
+
+/* Layout Preview Backgrounds */
+.compact {
+  background: url("data:image/svg+xml,%3Csvg width='80' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Crect width='80' height='50' fill='%23FFF' rx='3'/%3E%3Cg stroke='%23D1D5DB'%3E%3Crect x='8' y='8' width='64' height='4' rx='1'/%3E%3Crect x='8' y='16' width='64' height='4' rx='1'/%3E%3Crect x='8' y='24' width='64' height='4' rx='1'/%3E%3Crect x='8' y='32' width='64' height='4' rx='1'/%3E%3Crect x='8' y='40' width='64' height='4' rx='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.comfortable {
+  background: url("data:image/svg+xml,%3Csvg width='80' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Crect width='80' height='50' fill='%23FFF' rx='3'/%3E%3Cg stroke='%23D1D5DB'%3E%3Crect x='8' y='8' width='64' height='6' rx='1'/%3E%3Crect x='8' y='20' width='64' height='6' rx='1'/%3E%3Crect x='8' y='32' width='64' height='6' rx='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Color Options */
+.color-options {
+  display: flex;
+  gap: 12px;
+}
+
+.color-option {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.color-option:hover {
+  transform: scale(1.1);
+}
+
+.color-option.active::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.color-option.blue {
+  background-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.color-option.purple {
+  background-color: #8b5cf6;
+  color: #8b5cf6;
+}
+
+.color-option.green {
+  background-color: #10b981;
+  color: #10b981;
+}
+
+.color-option.orange {
+  background-color: #f59e0b;
+  color: #f59e0b;
+}
+
+/* Current Settings and Actions */
+.appearance-actions {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.current-settings h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #374151;
+}
+
+.current-settings ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.current-settings li {
+  margin-bottom: 8px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.setting-value {
+  font-weight: 500;
+  color: #374151;
+}
+
+/* Fixed Save Button Styles */
+
+button.save-appearance {
+  background-color: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.save-appearance:hover {
+  background-color: #4338ca;
+}
+
+.save-appearance:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.4);
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .appearance-actions {
+    flex-direction: column;
+    gap: 20px;
   }
+  
+  .save-appearance {
+    width: 100%;
+  }
+  
+  .theme-options, .layout-options {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+}
+}

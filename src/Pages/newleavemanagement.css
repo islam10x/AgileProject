@@ -330,3 +330,72 @@
       justify-content: flex-start;
     }
   }
+  /* Month navigation */
+.month-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.month-nav-button {
+  background: var(--bg-tertiary, #f3f4f6);
+  color: var(--text-secondary, #374151);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.month-nav-button:hover {
+  background: var(--bg-secondary, #f9fafb);
+}
+
+/* Calendar grid layout */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.weekday-header {
+  text-align: center;
+  font-weight: 500;
+  color: var(--text-tertiary, #6b7280);
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+}
+
+.calendar-day {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  position: relative;
+}
+
+.calendar-day.empty {
+  background: transparent;
+}
+
+.day-number {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* For theme compatibility */
+.theme-dark .month-nav-button,
+.theme-system.theme-dark-mode .month-nav-button {
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border-color: var(--border-color);
+}
+
+.theme-dark .weekday-header,
+.theme-system.theme-dark-mode .weekday-header {
+  color: var(--text-tertiary);
+}

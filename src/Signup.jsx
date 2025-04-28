@@ -47,6 +47,9 @@ const Signup = () => {
     }
     mutate({ email, password, name, last_name });
   };
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="login-container">

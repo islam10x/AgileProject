@@ -1,24 +1,5 @@
 /* Modern and Futuristic Styling */
-:root {
-  --primary-color: #6c63ff;
-  --secondary-color: #2a2a72;
-  --accent-color: #00f5ff;
-  --background-dark: #0a0a1f;
-  --text-primary: #ffffff;
-  --text-secondary: #b8b8b8;
-  --gradient-primary: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--secondary-color)
-  );
-  --gradient-accent: linear-gradient(
-    135deg,
-    var(--accent-color),
-    var(--primary-color)
-  );
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.2);
-}
+
 
 /* Modern Glass Effect */
 .glass-card {

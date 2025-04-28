@@ -4,7 +4,7 @@ export async function getEmployees() {
   let { data: employees, error } = await supabase
     .from("Users")
     .select("*")
-    .eq("role", "candidate");
+    .neq("role", "candidate");
   if (error) throw new Error(error.message);
   //   console.log(employees);
   const returnData = [];

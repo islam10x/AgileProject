@@ -129,6 +129,9 @@
 .progress-fill.sales {
   background: #8b5cf6;
 }
+.progress-fill.hr {
+  background: #f1ad19;
+}
 
 /* Employee Cards */
 .employee-card {

@@ -9,7 +9,8 @@ import {
   BarChart3,
 } from "lucide-react";
 import "./newdashboard.css";
-
+import { getEmployeeCount, getUserCountByRole } from "../services/authProvider";
+import { useState, useEffect } from "react";
 function StatCard({ icon: Icon, label, value, trend }) {
   return (
     <div className="stat-card">
@@ -39,13 +40,27 @@ function EmployeeCard({ name, role, department, image }) {
 }
 
 export function NewDashboard() {
+  const [numemployees, setNumemployees] = useState(null);
+  
+    useEffect(() => {
+      const fetchUserCount = async () => {  
+        try {
+          const count = await getEmployeeCount("candidate");
+          setNumemployees(count);
+        } catch (error) {  
+          console.error("Error fetching user count:", error);
+        }
+      };
+      fetchUserCount();
+
+    }, []);
   return (
     <div className="dashboard">
       <div className="stats-grid">
         <StatCard
           icon={Users}
           label="Total Employees"
-          value="248"
+          value={numemployees}
           trend="+12% vs last month"
         />
         <StatCard icon={DollarSign} label="Average Salary" value="$65,400" />
@@ -81,10 +96,20 @@ export function NewDashboard() {
               <div className="progress-bar">
                 <div
                   className="progress-fill marketing"
-                  style={{ width: "30%" }}
+                  style={{ width: "20%" }}
                 ></div>
               </div>
-              <span>30%</span>
+              <span>20%</span>
+            </div>
+            <div className="department-item">
+              <span>HR</span>
+              <div className="progress-bar">
+                <div
+                  className="progress-fill hr"
+                  style={{ width: "10%" }}
+                ></div>
+              </div>
+              <span>10%</span>
             </div>
             <div className="department-item">
               <span>Sales</span>

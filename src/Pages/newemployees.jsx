@@ -255,19 +255,6 @@ export function NewEmployees() {
           </tbody>
         </table>
       </div>
-
-      <div className="employees-footer">
-        <div className="pagination">
-          <button className="pagination-btn active">1</button>
-          <button className="pagination-btn">2</button>
-          <button className="pagination-btn">3</button>
-          <span>...</span>
-          <button className="pagination-btn">8</button>
-        </div>
-        <div className="showing-info">
-          Showing {filteredEmployees.length} of {employees.length} employees
-        </div>
-      </div>
     </div>
   );
 }
