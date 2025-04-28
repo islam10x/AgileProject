@@ -399,3 +399,199 @@
 .theme-system.theme-dark-mode .weekday-header {
   color: var(--text-tertiary);
 }
+/* Add these styles to your newleavemanagement.css file */
+
+/* Leave Request Form Modal */
+.leave-request-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.leave-request-form {
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 12px;
+}
+
+.form-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.close-button:hover {
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #555;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.date-display {
+  padding: 10px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.cancel-button, .submit-button {
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  color: #666;
+}
+
+.submit-button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #e0e0e0;
+}
+
+.submit-button:hover {
+  background-color: #43a047;
+}
+
+/* Calendar day status colors */
+.calendar-day.leave-pending {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+}
+
+.calendar-day.leave-rejected {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+
+.no-requests-message {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+  font-style: italic;
+}
+
+/* Make calendar days interactive */
+.calendar-day:not(.empty):not(.weekend):not(.holiday) {
+  position: relative;
+}
+
+.calendar-day:not(.empty):not(.weekend):not(.holiday):hover:not(.today):not(.leave-approved):not(.leave-pending):not(.leave-rejected) {
+  background-color: #f0f9ff;
+  border: 1px dashed #90cdf4;
+}
+.request-actions {
+  position: relative;
+  margin-left: 8px;
+}
+
+.action-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  color: #666;
+}
+
+.action-button:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.action-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  width: 120px;
+  z-index: 10;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.action-item:hover {
+  background: #f5f5f5;
+}
+
+.action-item.approve {
+  color: #22c55e;
+}
+
+.action-item.reject, .action-item.cancel {
+  color: #ef4444;
+}

@@ -42,8 +42,8 @@ body {
 }
 .input-group * {
   /* border: 10px solid blue; */
-  margin-bottom: 4px;
-  margin-top: 4px;
+  margin-bottom: 1px;
+  margin-top: 1px;
 }
 
 label {
@@ -72,6 +72,7 @@ label {
   padding: 2px;
   outline: none;
   box-sizing: border-box;
+  color:#333;
 }
 
 .error-border {
@@ -123,4 +124,7 @@ h2 {
   color: red;
   font-size: 14px;
   margin-top: 10px;
+}
+input::placeholder {
+  color:rgb(51, 35, 23);
 }

@@ -249,7 +249,7 @@ function HomePage() {
             navigate("/home");
           }}
         >
-          AAMMI
+          A²M²I
         </h2>
         <Button
           onClick={() => {
@@ -261,7 +261,7 @@ function HomePage() {
         </Button>
       </Header>
       <LandingPage>
-        <h1>Welcome to the AAMMI</h1>
+        <h1>Welcome to the A²M²I</h1>
         <p>Explore our offers and find the perfect job for you!</p>
       </LandingPage>
       <OffersContainer>

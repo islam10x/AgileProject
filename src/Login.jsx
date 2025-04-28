@@ -54,7 +54,7 @@ const Login = () => {
     <div className="login-container">
       <div className="login-header">
         <h2>
-          Login to <span className="app-name">AAMMI</span>
+          Login to <span className="app-name">A²M²I</span>
         </h2>
       </div>
 
@@ -85,7 +85,7 @@ const Login = () => {
               className={`input-field ${error ? "error-border" : ""}`}
             />
             <div onClick={togglePasswordVisibility} className="icon-btn">
-              {isPasswordVisible ? <FaEye /> : <FaEyeSlash />}
+              {isPasswordVisible ? <FaEye className="eye-icon"/> : <FaEyeSlash className="eye-icon"/>}
             </div>
           </div>
         </div>
