@@ -102,8 +102,8 @@ const Login = () => {
         )}
         <br />
         <H4>
-          Don't have an account click here{" "}
-          <LoginLink to={"/signup"}>Sign up</LoginLink>
+          Don't have an account? Click Here{" "}
+          <LoginLink to={"/signup"}>Sign Up</LoginLink>
         </H4>
       </div>
     </div>

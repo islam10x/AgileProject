@@ -41,7 +41,7 @@ const OfferInfo = styled.div`
   text-align: center;
 
   div:first-child {
-    display: flex-start;
+    display: grid;
     gap: 15px;
     align-items: flex-start;
   }

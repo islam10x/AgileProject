@@ -52,7 +52,7 @@ const Signup = () => {
     <div className="login-container">
       <div className="login-header">
         <h2>
-          Sign up to <span className="app-name">My App</span>
+          Sign up to <span className="app-name">AAMMI</span>
         </h2>
       </div>
 
@@ -129,7 +129,7 @@ const Signup = () => {
         )}
         <br />
         <H4>
-          Don't have an account click here{" "}
+          Already have an account? Click Here{" "}
           <LoginLink to={"/login"}>Login</LoginLink>
         </H4>
       </div>

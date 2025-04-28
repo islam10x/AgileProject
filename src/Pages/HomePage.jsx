@@ -47,6 +47,7 @@ import { useNavigate } from "react-router";
 import { palette, colors } from "../Styles/colors";
 import { useContext } from "react";
 import { Homecontext } from "../Context/LoginContext";
+//import { backgroundImg } from "../assets/images/budev.jpg";
 
 const CustomDiv = styled.div`
   overflow: hidden;
@@ -56,9 +57,24 @@ const CustomDiv = styled.div`
   justify-content: flex-start;
   min-height: 100vh;
   width: 100%;
-  background: ${colors.backGroundColor.mainWhite};
+  background: url("budev.jpg"), ${colors.backGroundColor.mainWhite};
+  background-size: cover;
+  background-position: center;
   position: relative;
 
+  /* Dark overlay layer */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.53);
+    z-index: 0;
+  }
+
+  /* Pulse animation layer */
   &::before {
     content: "";
     position: absolute;
@@ -73,7 +89,14 @@ const CustomDiv = styled.div`
     );
     opacity: 0.1;
     animation: pulse 8s infinite;
-    z-index: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Content must be above both layers */
+  > * {
+    position: relative;
+    z-index: 2;
   }
 
   @keyframes pulse {
@@ -106,6 +129,7 @@ const Header = styled.div`
   position: relative;
   z-index: 1;
 
+  color: white;
   & h1 {
     cursor: pointer;
     margin-left: 1%;
@@ -175,7 +199,7 @@ const Header = styled.div`
 `;
 
 const OffersContainer = styled.div`
-  background: ${colors.backGroundColor.white};
+  background: #cbd4dd;
   min-height: 100vh;
   width: 100%;
   display: flex;
@@ -217,11 +241,7 @@ const LandingPage = styled.div`
     font-size: 4rem;
     margin-bottom: 1.5rem;
     color: ${palette.black};
-    background: linear-gradient(
-      135deg,
-      ${palette.mainBlue},
-      ${palette.lightBlue}
-    );
+    background: linear-gradient(135deg, #e0e3ff, #ffffff);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -231,7 +251,7 @@ const LandingPage = styled.div`
 
   & p {
     font-size: 1.5rem;
-    color: ${palette.black};
+    color: ${palette.white};
     max-width: 600px;
     line-height: 1.6;
     font-weight: 500;
