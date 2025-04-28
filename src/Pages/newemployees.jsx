@@ -31,95 +31,10 @@ export function NewEmployees() {
       toast.error("Failed to fetch employees");
       console.log(err);
     },
-  }); // <--- Add this closing bracket!
+  });
+
   if (isLoading) return <Spinner />;
   if (!employees) return <h1>No employees</h1>;
-  // const employees = [
-  //   {
-  //     id: 1,
-  //     name: "Sarah Johnson",
-  //     role: "Senior Developer",
-  //     department: "Engineering",
-  //     email: "sarah.j@company.com",
-  //     phone: "555-123-4567",
-  //     hireDate: "Jan 10, 2023",
-  //     location: "New York, NY",
-  //     image: "/api/placeholder/40/40",
-  //     status: "Active",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Michael Chen",
-  //     role: "Product Manager",
-  //     department: "Product",
-  //     email: "michael.c@company.com",
-  //     phone: "555-234-5678",
-  //     hireDate: "Mar 15, 2022",
-  //     location: "San Francisco, CA",
-  //     image: "/api/placeholder/40/40",
-  //     status: "Active",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Emily Davis",
-  //     role: "Marketing Lead",
-  //     department: "Marketing",
-  //     email: "emily.d@company.com",
-  //     phone: "555-345-6789",
-  //     hireDate: "Nov 2, 2022",
-  //     location: "Chicago, IL",
-  //     image: "/api/placeholder/40/40",
-  //     status: "Active",
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "James Smith",
-  //     role: "Sales Representative",
-  //     department: "Sales",
-  //     email: "james.s@company.com",
-  //     phone: "555-456-7890",
-  //     hireDate: "Feb 20, 2023",
-  //     location: "Austin, TX",
-  //     image: "/api/placeholder/40/40",
-  //     status: "Probation",
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "Lisa Zhang",
-  //     role: "UX Designer",
-  //     department: "Design",
-  //     email: "lisa.z@company.com",
-  //     phone: "555-567-8901",
-  //     hireDate: "Apr 5, 2022",
-  //     location: "Seattle, WA",
-  //     image: "/api/placeholder/40/40",
-  //     status: "Active",
-  //   },
-  //   {
-  //     id: 6,
-  //     name: "Robert Taylor",
-  //     role: "HR Specialist",
-  //     department: "Human Resources",
-  //     email: "robert.t@company.com",
-  //     phone: "555-678-9012",
-  //     hireDate: "Sep 12, 2021",
-  //     location: "Boston, MA",
-  //     image: "/api/placeholder/40/40",
-  //     status: "Active",
-  //   },
-  //   {
-  //     id: 7,
-  //     name: "David Wilson",
-  //     role: "Backend Developer",
-  //     department: "Engineering",
-  //     email: "david.w@company.com",
-  //     phone: "555-789-0123",
-  //     hireDate: "Jul 7, 2022",
-  //     location: "Portland, OR",
-  //     image: "/api/placeholder/40/40",
-  //     status: "Active",
-  //   },
-  // ];
 
   const departments = [
     "All",
@@ -197,6 +112,10 @@ export function NewEmployees() {
                       src={employee.image}
                       alt={employee.name}
                       className="employee-avatar"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/fallback-avatar.png"; // fallback image
+                      }}
                     />
                   ) : (
                     <User size={40} />

@@ -125,9 +125,9 @@ function OfferCard({ offer, user }) {
   );
 }
 
-export default function OffersDashboard({ user }) {
+export default function OffersDashboard({ user, offers }) {
   const queryClient = useQueryClient();
-  const offers = queryClient.getQueryData(["offers"]) || [];
+  // const offers = queryClient.getQueryData(["offers"]) || [];
 
   // Debug: Log all offers with expiration status
   console.log(

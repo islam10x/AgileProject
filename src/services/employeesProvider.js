@@ -12,6 +12,7 @@ export async function getEmployees() {
     let { data: fileData, error: statError } = await supabase.storage
       .from("avatars")
       .list("", { search: `${e.id}` });
+    console.log(fileData);
     if (statError || fileData.length === 0) {
       returnData.push({ ...e, image: null });
     } else {
