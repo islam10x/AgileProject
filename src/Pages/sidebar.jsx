@@ -118,6 +118,40 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, activeMenu, setActiveMenu }) => {
               />
             </>
           )}
+          {role === "employee" && (
+            <>
+              <MenuItem
+                icon={<BarChart />}
+                text="Dashboard"
+                active={activeMenu === "dashboard"}
+                collapsed={!sidebarOpen}
+                onClick={() => setActiveMenu("dashboard")}
+              />
+              <MenuItem
+                icon={<Calendar />}
+                text="Leave Management"
+                active={activeMenu === "leave"}
+                collapsed={!sidebarOpen}
+                onClick={() => setActiveMenu("leave")}
+              />
+              <MenuItem
+                icon={<ListCheck />}
+                text={"Requests"}
+                onClick={() => {
+                  setActiveMenu("requests");
+                }}
+                collapsed={!sidebarOpen}
+                active={activeMenu === "requests"}
+              />
+              <MenuItem
+                icon={<FileText />}
+                text="Payroll"
+                active={activeMenu === "payroll"}
+                collapsed={!sidebarOpen}
+                onClick={() => setActiveMenu("payroll")}
+              />
+            </>
+          )}
         </nav>
       </div>
     </div>
