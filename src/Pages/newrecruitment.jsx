@@ -126,6 +126,29 @@ export function NewRecruitment() {
       date: "Apr 26, 2025",
     },
   ];
+  const supabaseUrl = "https://khqyjobamsjvowjhqqbz.supabase.co";
+const supabaseKey = "your-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtocXlqb2JhbXNqdm93amhxcWJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA2NTcxMjUsImV4cCI6MjA1NjIzMzEyNX0.kEokOSTD_libgsMaHqRX8DCx9Lha7PH31iH2JzVFYnM-key"; // Make sure this is the public anon key
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+const NewRecruitment = () => {
+  const [candidates, setCandidates] = useState([]);
+
+  useEffect(() => {
+    const fetchCandidates = async () => {
+      const { data, error } = await supabase
+        .from("users") 
+        .select("name,last_name, image, created_at") 
+        .order("created_at", { ascending: false }); 
+
+      if (error) {
+        console.error("Error fetching candidates:", error);
+      } else {
+        setCandidates(data);
+      }
+    };
+
+    fetchCandidates();
+  }, []);
 
   const statCards = [
     {

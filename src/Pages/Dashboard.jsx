@@ -15,19 +15,18 @@ import { NewRecruitment } from "./newrecruitment.jsx";
 import NewLeaveManagement from "./newleavemanagement.jsx";
 import NewPayroll from "./newpayroll.jsx";
 import NewSettings from "./newsettings.jsx";
-import Offers from "../Components/Offers.jsx";
 import OffersDashboard from "./OffersDashboard.jsx";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import RequestsDashboard from "./RequestsDashboard.jsx";
-import JobRequest from "./JobRequest.jsx";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getOffers } from "../services/infoProvider.js";
 
 const HRMDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeMenu, setActiveMenu] = useState("dashboard");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
   const queryClient = useQueryClient();
-  const user = queryClient.getQueryData(["user"]);
   const { data: offers } = useQuery({
     queryKey: ["offers"],
     queryFn: getOffers,
@@ -35,31 +34,37 @@ const HRMDashboard = () => {
     staleTime: 5 * 60 * 1000,
     retry: false,
   });
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
+
   useEffect(() => {
     const checkUser = async () => {
       try {
         const user = await fetchCurrentUser();
         if (!user) {
-          window.location.reload();
+          console.error("No user found. Redirecting or handling logout...");
+          // Optionally: Redirect to login page if using react-router
+          // navigate("/login");
+        } else {
+          setCurrentUser(user);
         }
       } catch (error) {
         console.error("Error checking user:", error);
-        window.location.reload();
+        // Optionally: Redirect or show error page
       }
     };
+
     checkUser();
   }, []);
 
-  // Function to render the appropriate content based on activeMenu
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   const renderContent = () => {
     switch (activeMenu) {
       case "requests":
-        return <RequestsDashboard user={user} />;
+        return <RequestsDashboard user={currentUser} />;
       case "offers":
-        return <OffersDashboard user={user} offers={offers} />;
+        return <OffersDashboard user={currentUser} offers={offers} />;
       case "dashboard":
         return <NewDashboard />;
       case "employees":
@@ -72,12 +77,14 @@ const HRMDashboard = () => {
         return <NewPayroll />;
       case "settings":
         return <NewSettings />;
-      // case "jobRequest":
-      //   return <JobRequest />;
       default:
         return <NewDashboard />;
     }
   };
+
+  if (!currentUser) {
+    return <div className="loading-screen">Loading user...</div>;
+  }
 
   return (
     <div className="dashboard-container">

@@ -32,12 +32,34 @@ const JobRequest = () => {
     }
   };
 
-  const updateOfferStatus = async (id, newStatus) => {
+  const updateOfferStatus = async (id, offerId, newStatus) => {
+    console.log(id, offerId, newStatus);
     try {
       const { error } = await supabase
         .from("offerRequests")
         .update({ status: newStatus })
         .eq("id", id);
+      const { data: userId, error: userIdError } = await supabase
+        .from("offerRequests")
+        .select("userId")
+        .eq("id", id)
+        .single();
+      if (userIdError) throw userIdError;
+      const { data: offerDetails, error: offerDetailsError } = await supabase
+        .from("offers")
+        .select("*")
+        .eq("id", offerId)
+        .single();
+      if (offerDetailsError) throw offerDetailsError;
+      console.log(offerDetails);
+      const { error: updatingError } = await supabase
+        .from("Users")
+        .update({
+          role: "employee",
+          department: offerDetails.department,
+          salary: offerDetails.salary,
+        })
+        .eq("id", userId.userId);
 
       if (error) throw error;
       fetchOffers();
@@ -66,14 +88,18 @@ const JobRequest = () => {
             <div className="button-group">
               <button
                 className="accept-btn"
-                onClick={() => updateOfferStatus(offer.id, "accepted")}
+                onClick={() =>
+                  updateOfferStatus(offer.id, offer.OfferId, "accepted")
+                }
                 disabled={offer.status === "accepted"}
               >
                 Accept
               </button>
               <button
                 className="reject-btn"
-                onClick={() => updateOfferStatus(offer.id, "rejected")}
+                onClick={() =>
+                  updateOfferStatus(offer.id, offer.OfferId, "rejected")
+                }
                 disabled={offer.status === "rejected"}
               >
                 Reject

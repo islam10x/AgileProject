@@ -6,6 +6,7 @@ import { MdLocationOn } from "react-icons/md";
 import { FaMoneyBill } from "react-icons/fa";
 import { useContext } from "react";
 import { Homecontext } from "../Context/LoginContext";
+import { toast } from "react-toastify";
 
 const CustomDiv = styled.div`
   padding: 5px 20px;
@@ -63,8 +64,9 @@ function Offer({ offer }) {
   return (
     <CustomDiv
       onClick={() => {
+        toast.success("Please create an account to apply for this offer");
         setHomePass(true);
-        navigate("/Form");
+        navigate("/Signup");
       }}
     >
       <OfferTitle>
