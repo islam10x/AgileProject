@@ -47,17 +47,21 @@ const Signup = () => {
     }
     mutate({ email, password, name, last_name });
   };
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="login-container">
       <div className="login-header">
         <h2>
-          Sign up to <span className="app-name">AAMMI</span>
+          Sign up to <span className="app-name">A²M²I</span>
         </h2>
       </div>
 
       <div className="login-form">
         <div className="input-group">
+          <label>First name</label>
           <input
             type="text"
             placeholder="Enter your first name"
@@ -65,6 +69,7 @@ const Signup = () => {
             onChange={(e) => setName(e.target.value)}
             className={`input-field ${error ? "error-border" : ""}`}
           />
+          <label>Last name</label>
           <input
             type="text"
             placeholder="Enter your last name"
@@ -72,6 +77,7 @@ const Signup = () => {
             onChange={(e) => setlast_name(e.target.value)}
             className={`input-field ${error ? "error-border" : ""}`}
           />
+          <label>Email</label>
           <input
             type={"email"}
             required
@@ -80,6 +86,7 @@ const Signup = () => {
             onChange={(e) => setEmail(e.target.value)}
             className={`input-field ${error ? "error-border" : ""}`}
           />
+          <label>Password</label>
           <div className="password-wrapper">
             <input
               type={isPasswordVisible ? "text" : "password"}
@@ -96,6 +103,7 @@ const Signup = () => {
               )}
             </div>
           </div>
+          <label>Confirm password</label>
           <div className="password-wrapper">
             <input
               type={isPasswordVisible ? "text" : "password"}

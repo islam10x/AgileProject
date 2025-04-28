@@ -60,7 +60,7 @@ function OfferCard({ offer, user }) {
           toast.success("Application sent successfully");
         }
       } else {
-        toast.warning("Application not available");
+        toast.warning("user already applied for this offer");
       }
     } catch (error) {
       toast.error("Failed to submit application");
@@ -125,9 +125,9 @@ function OfferCard({ offer, user }) {
   );
 }
 
-export default function OffersDashboard({ user }) {
+export default function OffersDashboard({ user, offers }) {
   const queryClient = useQueryClient();
-  const offers = queryClient.getQueryData(["offers"]) || [];
+  // const offers = queryClient.getQueryData(["offers"]) || [];
 
   // Debug: Log all offers with expiration status
   console.log(

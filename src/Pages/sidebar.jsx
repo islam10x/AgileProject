@@ -10,6 +10,7 @@ import {
   X,
   Newspaper,
   ListCheck,
+  CalendarCheck2,
 } from "lucide-react";
 import "./sidebar.css";
 import Payroll from "./payroll";
@@ -79,6 +80,13 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, activeMenu, setActiveMenu }) => {
                 collapsed={!sidebarOpen}
                 onClick={() => setActiveMenu("settings")}
               />
+              {/* <MenuItem
+                icon={<CalendarCheck2 />}
+                text="Job Requests"
+                active={activeMenu === "jobRequest"}
+                collapsed={!sidebarOpen}
+                onClick={() => setActiveMenu("jobRequest")}
+              /> */}
             </>
           )}
           {role === "candidate" && (

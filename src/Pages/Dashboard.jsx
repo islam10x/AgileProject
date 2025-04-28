@@ -17,8 +17,10 @@ import NewPayroll from "./newpayroll.jsx";
 import NewSettings from "./newsettings.jsx";
 import Offers from "../Components/Offers.jsx";
 import OffersDashboard from "./OffersDashboard.jsx";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import RequestsDashboard from "./RequestsDashboard.jsx";
+import JobRequest from "./JobRequest.jsx";
+import { getOffers } from "../services/infoProvider.js";
 
 const HRMDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -26,6 +28,13 @@ const HRMDashboard = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const queryClient = useQueryClient();
   const user = queryClient.getQueryData(["user"]);
+  const { data: offers } = useQuery({
+    queryKey: ["offers"],
+    queryFn: getOffers,
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000,
+    retry: false,
+  });
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
@@ -50,7 +59,7 @@ const HRMDashboard = () => {
       case "requests":
         return <RequestsDashboard user={user} />;
       case "offers":
-        return <OffersDashboard user={user} />;
+        return <OffersDashboard user={user} offers={offers} />;
       case "dashboard":
         return <NewDashboard />;
       case "employees":
@@ -63,6 +72,8 @@ const HRMDashboard = () => {
         return <NewPayroll />;
       case "settings":
         return <NewSettings />;
+      // case "jobRequest":
+      //   return <JobRequest />;
       default:
         return <NewDashboard />;
     }
