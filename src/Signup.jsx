@@ -8,6 +8,7 @@ import { validateEmail } from "./Helper/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchCurrentUser, signup } from "./services/authProvider";
 import { toast } from "react-toastify";
+import Spinner from "./Components/Spinner";
 const LoginLink = styled(Link)`
   text-decoration: underline;
 `;
