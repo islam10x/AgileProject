@@ -15,12 +15,12 @@ import {
 } from "lucide-react";
 import "./newemployees.css";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { 
-  getEmployees, 
-  promoteToEmployee, 
-  getCandidates, 
-  updateEmployee, 
-  deleteEmployee 
+import {
+  getEmployees,
+  promoteToEmployee,
+  getCandidates,
+  updateEmployee,
+  deleteEmployee,
 } from "../services/employeesProvider";
 import { toast } from "react-toastify";
 import Spinner from "../Components/Spinner";
@@ -33,10 +33,13 @@ export function NewEmployees() {
   const [candidateSearchTerm, setCandidateSearchTerm] = useState("");
   const [newDepartment, setNewDepartment] = useState("");
   const [newSalary, setNewSalary] = useState("");
-  
+
   // For employee actions
   const [showActionMenu, setShowActionMenu] = useState(false);
-  const [actionMenuPosition, setActionMenuPosition] = useState({ top: 0, left: 0 });
+  const [actionMenuPosition, setActionMenuPosition] = useState({
+    top: 0,
+    left: 0,
+  });
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -47,20 +50,23 @@ export function NewEmployees() {
     department: "",
     location: "",
     status: "",
-    salary: ""
+    salary: "",
   });
-  
+
   const actionMenuRef = useRef(null);
   const queryClient = useQueryClient();
 
   // Click outside handler for action menu
   useEffect(() => {
     function handleClickOutside(event) {
-      if (actionMenuRef.current && !actionMenuRef.current.contains(event.target)) {
+      if (
+        actionMenuRef.current &&
+        !actionMenuRef.current.contains(event.target)
+      ) {
         setShowActionMenu(false);
       }
     }
-    
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -97,7 +103,7 @@ export function NewEmployees() {
 
   // Mutation for promoting candidate to employee
   const promoteMutation = useMutation({
-    mutationFn: async ({userId, department, salary}) => {
+    mutationFn: async ({ userId, department, salary }) => {
       return await promoteToEmployee(userId, department, salary);
     },
     onSuccess: () => {
@@ -114,9 +120,9 @@ export function NewEmployees() {
     onError: (err) => {
       toast.error("Failed to promote candidate");
       console.log(err);
-    }
+    },
   });
-  
+
   // Mutation for updating employee information
   const updateMutation = useMutation({
     mutationFn: async (employeeData) => {
@@ -131,9 +137,9 @@ export function NewEmployees() {
     onError: (err) => {
       toast.error("Failed to update employee information");
       console.log(err);
-    }
+    },
   });
-  
+
   // Mutation for deleting employee
   const deleteMutation = useMutation({
     mutationFn: async (employeeId) => {
@@ -148,7 +154,7 @@ export function NewEmployees() {
     onError: (err) => {
       toast.error("Failed to delete employee");
       console.log(err);
-    }
+    },
   });
 
   const handlePromoteCandidate = () => {
@@ -156,43 +162,43 @@ export function NewEmployees() {
       toast.error("Please select a candidate");
       return;
     }
-    
+
     if (!newDepartment) {
       toast.error("Please select a department");
       return;
     }
-    
+
     if (!newSalary || isNaN(parseFloat(newSalary))) {
       toast.error("Please enter a valid salary");
       return;
     }
-    
+
     promoteMutation.mutate({
       userId: selectedCandidate.id,
       department: newDepartment,
-      salary: parseFloat(newSalary)
+      salary: parseFloat(newSalary),
     });
   };
-  
+
   const handleActionClick = (e, employee) => {
     e.stopPropagation();
-    
+
     // Get button position
     const rect = e.currentTarget.getBoundingClientRect();
-    
+
     // Set action menu position
     setActionMenuPosition({
       top: rect.bottom + window.scrollY,
-      left: rect.left + window.scrollX - 100 // Position menu to the left of the button
+      left: rect.left + window.scrollX - 100, // Position menu to the left of the button
     });
-    
+
     setSelectedEmployee(employee);
     setShowActionMenu(true);
   };
-  
+
   const handleEditClick = () => {
     setShowActionMenu(false);
-    
+
     // Set edit form data
     setEditFormData({
       id: selectedEmployee.id,
@@ -202,39 +208,45 @@ export function NewEmployees() {
       department: selectedEmployee.department,
       location: selectedEmployee.location,
       status: selectedEmployee.status,
-      salary: selectedEmployee.salary || ""
+      salary: selectedEmployee.salary || "",
     });
-    
+
     setShowEditModal(true);
   };
-  
+
   const handleDeleteClick = () => {
     setShowActionMenu(false);
     setShowDeleteConfirm(true);
   };
-  
+
   const handleEditSubmit = (e) => {
     e.preventDefault();
-    
-    if (!editFormData.name || !editFormData.email || !editFormData.phone || !editFormData.location || !editFormData.salary) {
+
+    if (
+      !editFormData.name ||
+      !editFormData.email ||
+      !editFormData.phone ||
+      !editFormData.location ||
+      !editFormData.salary
+    ) {
       toast.error("Please fill all required fields");
       return;
     }
-    
+
     updateMutation.mutate(editFormData);
   };
-  
+
   const handleDeleteConfirm = () => {
     if (selectedEmployee) {
       deleteMutation.mutate(selectedEmployee.id);
     }
   };
-  
+
   const handleEditChange = (e) => {
     const { name, value } = e.target;
-    setEditFormData(prev => ({
+    setEditFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -250,7 +262,7 @@ export function NewEmployees() {
     "Design",
     "Human Resources",
   ];
-  
+
   const statusOptions = ["Active", "Probation", "Inactive"];
 
   const filteredEmployees = employees.filter(
@@ -260,10 +272,10 @@ export function NewEmployees() {
       employee.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredCandidates = candidates?.filter(
-    (candidate) =>
+  const filteredCandidates =
+    candidates?.filter((candidate) =>
       candidate.name.toLowerCase().includes(candidateSearchTerm.toLowerCase())
-  ) || [];
+    ) || [];
 
   return (
     <div className="employees-container">
@@ -298,7 +310,7 @@ export function NewEmployees() {
             </select>
           </div>
 
-          <button 
+          <button
             className="add-employee-btn"
             onClick={() => setShowCandidateModal(true)}
           >
@@ -382,7 +394,7 @@ export function NewEmployees() {
                   </span>
                 </td>
                 <td>
-                  <button 
+                  <button
                     className="action-btn"
                     onClick={(e) => handleActionClick(e, employee)}
                   >
@@ -401,7 +413,7 @@ export function NewEmployees() {
           <div className="candidate-modal">
             <div className="modal-header">
               <h2>Select Candidate to Promote</h2>
-              <button 
+              <button
                 className="close-btn"
                 onClick={() => setShowCandidateModal(false)}
               >
@@ -424,9 +436,11 @@ export function NewEmployees() {
                 <Spinner />
               ) : filteredCandidates.length > 0 ? (
                 filteredCandidates.map((candidate) => (
-                  <div 
-                    key={candidate.id} 
-                    className={`candidate-item ${selectedCandidate?.id === candidate.id ? 'selected' : ''}`}
+                  <div
+                    key={candidate.id}
+                    className={`candidate-item ${
+                      selectedCandidate?.id === candidate.id ? "selected" : ""
+                    }`}
                     onClick={() => setSelectedCandidate(candidate)}
                   >
                     <div className="candidate-info">
@@ -458,7 +472,7 @@ export function NewEmployees() {
             {selectedCandidate && (
               <div className="promotion-form">
                 <h3>Promote {selectedCandidate.name}</h3>
-                
+
                 <div className="form-group">
                   <label htmlFor="department">Department</label>
                   <select
@@ -467,12 +481,16 @@ export function NewEmployees() {
                     onChange={(e) => setNewDepartment(e.target.value)}
                     required
                   >
-                    <option value="" disabled>Select Department</option>
-                    {departments.filter(dept => dept !== "All").map((dept) => (
-                      <option key={dept} value={dept}>
-                        {dept}
-                      </option>
-                    ))}
+                    <option value="" disabled>
+                      Select Department
+                    </option>
+                    {departments
+                      .filter((dept) => dept !== "All")
+                      .map((dept) => (
+                        <option key={dept} value={dept}>
+                          {dept}
+                        </option>
+                      ))}
                   </select>
                 </div>
 
@@ -488,22 +506,24 @@ export function NewEmployees() {
                   />
                 </div>
 
-                <button 
+                <button
                   className="promote-btn"
                   onClick={handlePromoteCandidate}
                   disabled={promoteMutation.isPending}
                 >
-                  {promoteMutation.isPending ? "Promoting..." : "Promote to Employee"}
+                  {promoteMutation.isPending
+                    ? "Promoting..."
+                    : "Promote to Employee"}
                 </button>
               </div>
             )}
           </div>
         </div>
       )}
-      
+
       {/* Action Menu */}
       {showActionMenu && (
-        <div 
+        <div
           className="action-menu"
           style={{ top: actionMenuPosition.top, left: actionMenuPosition.left }}
           ref={actionMenuRef}
@@ -512,27 +532,30 @@ export function NewEmployees() {
             <Edit size={16} />
             <span>Edit</span>
           </button>
-          <button onClick={handleDeleteClick} className="action-menu-item delete">
+          <button
+            onClick={handleDeleteClick}
+            className="action-menu-item delete"
+          >
             <Trash size={16} />
             <span>Delete</span>
           </button>
         </div>
       )}
-      
+
       {/* Edit Employee Modal */}
       {showEditModal && (
         <div className="modal-overlay">
           <div className="candidate-modal">
             <div className="modal-header">
               <h2>Edit Employee</h2>
-              <button 
+              <button
                 className="close-btn"
                 onClick={() => setShowEditModal(false)}
               >
                 <X size={24} />
               </button>
             </div>
-            
+
             <form onSubmit={handleEditSubmit} className="edit-form">
               <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -545,7 +568,7 @@ export function NewEmployees() {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
@@ -557,7 +580,7 @@ export function NewEmployees() {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="phone">Phone</label>
                 <input
@@ -568,7 +591,7 @@ export function NewEmployees() {
                   onChange={handleEditChange}
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="department">Department</label>
                 <select
@@ -578,15 +601,19 @@ export function NewEmployees() {
                   onChange={handleEditChange}
                   required
                 >
-                  <option value="" disabled>Select Department</option>
-                  {departments.filter(dept => dept !== "All").map((dept) => (
-                    <option key={dept} value={dept}>
-                      {dept}
-                    </option>
-                  ))}
+                  <option value="" disabled>
+                    Select Department
+                  </option>
+                  {departments
+                    .filter((dept) => dept !== "All")
+                    .map((dept) => (
+                      <option key={dept} value={dept}>
+                        {dept}
+                      </option>
+                    ))}
                 </select>
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="location">Location</label>
                 <input
@@ -597,7 +624,7 @@ export function NewEmployees() {
                   onChange={handleEditChange}
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="status">Status</label>
                 <select
@@ -614,7 +641,7 @@ export function NewEmployees() {
                   ))}
                 </select>
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="salary">Salary</label>
                 <input
@@ -625,9 +652,9 @@ export function NewEmployees() {
                   onChange={handleEditChange}
                 />
               </div>
-              
-              <button 
-                type="submit" 
+
+              <button
+                type="submit"
                 className="update-btn"
                 disabled={updateMutation.isPending}
               >
@@ -637,33 +664,36 @@ export function NewEmployees() {
           </div>
         </div>
       )}
-      
+
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="modal-overlay">
           <div className="delete-modal">
             <div className="modal-header">
               <h2>Delete Employee</h2>
-              <button 
+              <button
                 className="close-btn"
                 onClick={() => setShowDeleteConfirm(false)}
               >
                 <X size={24} />
               </button>
             </div>
-            
+
             <div className="delete-content">
-              <p>Are you sure you want to delete <strong>{selectedEmployee?.name}</strong>?</p>
+              <p>
+                Are you sure you want to delete{" "}
+                <strong>{selectedEmployee?.name}</strong>?
+              </p>
               <p>This action cannot be undone.</p>
-              
+
               <div className="delete-actions">
-                <button 
+                <button
                   className="cancel-btn"
                   onClick={() => setShowDeleteConfirm(false)}
                 >
                   Cancel
                 </button>
-                <button 
+                <button
                   className="delete-confirm-btn"
                   onClick={handleDeleteConfirm}
                   disabled={deleteMutation.isPending}

@@ -15,7 +15,11 @@ import {
   Currency,
 } from "lucide-react";
 import "./newrecruitment.css";
-import { fetchJobOpenings, postNewJob, fetchRecentCandidates } from "../services/offersProvider";
+import {
+  fetchJobOpenings,
+  postNewJob,
+  fetchRecentCandidates,
+} from "../services/offersProvider";
 import JobRequest from "./JobRequest";
 
 export function NewRecruitment() {
@@ -42,10 +46,11 @@ export function NewRecruitment() {
     department: "",
     location: "",
     salary: "",
-    currency:"USD",
+    currency: "USD",
     type: "",
     description: "",
     status: "Active",
+    company_name: "",
     expires_at: undefined,
   });
   const [candidates, setCandidates] = useState([]);
@@ -81,23 +86,26 @@ export function NewRecruitment() {
   }, []);
 
   const calculateStats = (jobs) => {
-    const openPositions = jobs.filter(job => job.status === "Active").length;
-    const totalApplicants = jobs.reduce((total, job) => total + (job.applicants || 0), 0);
+    const openPositions = jobs.filter((job) => job.status === "Active").length;
+    const totalApplicants = jobs.reduce(
+      (total, job) => total + (job.applicants || 0),
+      0
+    );
     const avgTimeToHire = Math.round(Math.random() * 10) + 15;
-    
+
     setStats({
       openPositions,
       totalApplicants,
       avgTimeToHire: `${avgTimeToHire} days`,
     });
-    
+
     const applied = Math.round(totalApplicants * 0.8);
     const screening = Math.round(applied * 0.7);
     const assessment = Math.round(screening * 0.7);
     const interview = Math.round(assessment * 0.7);
     const offer = Math.round(interview * 0.5);
     const hired = Math.round(offer * 0.7);
-    
+
     setPipelineStats([
       { stage: "Applied", count: applied },
       { stage: "Screening", count: screening },
@@ -110,26 +118,30 @@ export function NewRecruitment() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewJob(prev => ({ ...prev, [name]: value }));
+    setNewJob((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmitJob = async (e) => {
     e.preventDefault();
-    
+
     const newJobData = {
       ...newJob,
-      created_at: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-      applicants: 0
+      created_at: new Date().toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }),
+      applicants: 0,
     };
-    
+
     try {
       // Post the new job to the database
       const createdJob = await postNewJob(newJobData);
-      
+
       // Update local state with the new job
-      setJobOpenings(prev => [...prev, ...createdJob]);
+      setJobOpenings((prev) => [...prev, ...createdJob]);
       calculateStats([...jobOpenings, ...createdJob]);
-      
+
       // Close the modal and reset form
       setShowJobModal(false);
       setNewJob({
@@ -138,7 +150,7 @@ export function NewRecruitment() {
         location: "",
         salary: "",
         description: "",
-        status: "Active"
+        status: "Active",
       });
     } catch (error) {
       console.error("Error posting job:", error);
@@ -224,10 +236,12 @@ export function NewRecruitment() {
             {pipelineStats.map((stage, index) => (
               <div key={index} className="pipeline-stage">
                 <div className="stage-value">{stage.count}</div>
-                <div 
-                  className="stage-bar" 
-                  style={{ 
-                    height: `${(stage.count / (pipelineStats[0].count || 1)) * 100}%` 
+                <div
+                  className="stage-bar"
+                  style={{
+                    height: `${
+                      (stage.count / (pipelineStats[0].count || 1)) * 100
+                    }%`,
                   }}
                 ></div>
                 <div className="stage-label">{stage.stage}</div>
@@ -347,7 +361,9 @@ export function NewRecruitment() {
                   )}
                   <div>
                     <h3 className="candidate-name">{candidate.name}</h3>
-                    <p className="candidate-position">{candidate.position || "Candidate"}</p>
+                    <p className="candidate-position">
+                      {candidate.position || "Candidate"}
+                    </p>
                   </div>
                 </div>
                 <div className="candidate-stage-info">
@@ -395,7 +411,10 @@ export function NewRecruitment() {
           <div className="job-modal">
             <div className="modal-header">
               <h2>Post New Job</h2>
-              <button className="close-modal" onClick={() => setShowJobModal(false)}>
+              <button
+                className="close-modal"
+                onClick={() => setShowJobModal(false)}
+              >
                 <X size={20} />
               </button>
             </div>
@@ -412,7 +431,7 @@ export function NewRecruitment() {
                   required
                 />
               </div>
-              
+
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="department">Department*</label>
@@ -425,8 +444,18 @@ export function NewRecruitment() {
                     placeholder="e.g. Engineering"
                     required
                   />
+                  <label htmlFor="department">company_name*</label>
+                  <input
+                    type="text"
+                    id="company_name"
+                    name="company_name"
+                    value={newJob.company_name}
+                    onChange={handleInputChange}
+                    placeholder="e.g. Google"
+                    required
+                  />
                 </div>
-                
+
                 <div className="form-group">
                   <label htmlFor="location">Location*</label>
                   <input
@@ -440,7 +469,7 @@ export function NewRecruitment() {
                   />
                 </div>
               </div>
-              
+
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="salary">Salary Range*</label>
@@ -466,7 +495,7 @@ export function NewRecruitment() {
                     required
                   />
                 </div>
-                
+
                 <div className="form-group">
                   <label htmlFor="status">Status</label>
                   <select
@@ -490,7 +519,7 @@ export function NewRecruitment() {
                   </select>
                 </div>
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="description">Job Description*</label>
                 <textarea
@@ -505,7 +534,11 @@ export function NewRecruitment() {
               </div>
 
               <div className="form-actions">
-                <button type="button" className="cancel-btn" onClick={() => setShowJobModal(false)}>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => setShowJobModal(false)}
+                >
                   Cancel
                 </button>
                 <button type="submit" className="submit-btn">
