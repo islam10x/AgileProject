@@ -1,10 +1,5 @@
 import Sidebar from "./sidebar";
 import Header from "./Header";
-import Maindashboard from "./maindashboard";
-import Employees from "./employees";
-import Recruitment from "./recruitment";
-import LeaveManagement from "./leavemanagement";
-import Settings from "./settings";
 import "./Dashboard.css";
 import Payroll from "./payroll";
 import { useEffect, useState } from "react";

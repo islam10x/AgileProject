@@ -98,7 +98,6 @@ export default function JobApplicationForm() {
           status: "new",
         };
 
-        // Submit candidate data using our service
         const result = await candidateService.createCandidate(candidateData);
 
         if (!result.success) {

@@ -64,6 +64,7 @@ export default function Profile({ isOpen, onClose, userData }) {
       await queryClient.invalidateQueries({ queryKey: ["user"] });
       // window.location.reload();
       toast.success("Profile updated successfully");
+      onClose();
     },
   });
 
@@ -83,14 +84,14 @@ export default function Profile({ isOpen, onClose, userData }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     const newData = {
       ...user,
       image: file,
     };
     console.log(newData);
-    updateUser({
+    await updateUser({
       userId: userData.id,
       currentData: userData,
       newData,
@@ -206,8 +207,8 @@ export default function Profile({ isOpen, onClose, userData }) {
                   <p className="field-value">{user.last_name}</p>
                 )}
               </div>
-
-              {/* Email */}
+{/* 
+              Email
               <div className="info-card">
                 <div className="card-header">
                   <div className="card-title-container">
@@ -248,7 +249,7 @@ export default function Profile({ isOpen, onClose, userData }) {
                 )}
               </div>
 
-              {/* Password */}
+              {/* Password 
               <div className="info-card">
                 <div className="card-header">
                   <div className="card-title-container">
@@ -289,7 +290,7 @@ export default function Profile({ isOpen, onClose, userData }) {
                 ) : (
                   <p className="field-value">{user.password}</p>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
 
